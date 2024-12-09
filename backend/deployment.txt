@@ -1,0 +1,4 @@
+backend:
+add bcrypt password in auth controller register function
+add compare bcrypt password in auth controller Login function
+change compass url to atls url in env
