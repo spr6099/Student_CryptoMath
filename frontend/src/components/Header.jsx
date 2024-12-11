@@ -1,13 +1,22 @@
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function Header() {
+  const { setUser, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const Logout = () => {
+    setUser("");
+    navigate("/login");
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg sticky-top bg-body-tertiary">
         <div className="container">
           <Link className="navbar-brand">CryptoMath</Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarText"
@@ -15,78 +24,82 @@ function Header() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link
+                {/* <Link
                   className="nav-link active"
                   aria-current="page"
                   to="/admin/home"
                 >
                   Home
-                </Link>
+                </Link> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/admin/viewTeacher">
+                {/* <Link className="nav-link" to="/admin/viewTeacher">
                   Teacher
-                </Link>
+                </Link> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/admin/viewParents">
+                {/* <Link className="nav-link" to="/admin/viewParents">
                   Parent
-                </Link>
+                </Link> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/admin/viewStudent">
+                {/* <Link className="nav-link" to="/admin/viewStudent">
                   Student
-                </Link>
+                </Link> */}
               </li>
             </ul>
           </div>
-          <div class="dropdown drop-lg-start pe-sm-0 pe-lg-5">
-            <a
-              href="#"
-              class="d-block link-dark text-decoration-none dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                src="https://github.com/mdo.png"
-                alt="mdo"
-                width="25"
-                height="25"
-                class="rounded-circle"
-              />
-            </a>
-            <ul class="dropdown-menu text-small">
-              <li>
-                <a class="dropdown-item" href="#">
-                  Admin
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Settings
-                </a>
-              </li>
-              {/* <li>
-                    <a class="dropdown-item" href="#">
+          {user ? (
+            <div className="dropdown drop-lg-start pe-sm-0 pe-lg-5">
+              <a
+                href="#"
+                className="d-block link-dark text-decoration-none dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src="https://github.com/mdo.png"
+                  alt="mdo"
+                  width="25"
+                  height="25"
+                  className="rounded-circle"
+                />
+              </a>
+              <ul className="dropdown-menu text-small">
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Admin
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Settings
+                  </a>
+                </li>
+                {/* <li>
+                    <a className="dropdown-item" href="#">
                       Profile
                     </a>
                   </li> */}
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a className="dropdown-item" >
-                  Signout
-                  {/* <sub className="text-dark p-2">admin</sub> */}
-                </a>
-              </li>
-            </ul>
-          </div>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+                <li>
+                  <button className="dropdown-item" onClick={Logout}>
+                    Logout
+                    {/* <sub className="text-dark p-2">admin</sub> */}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <Link to={"/login"}>Login</Link>
+          )}
         </div>
       </nav>
     </>
@@ -108,35 +121,35 @@ export default Header;
 
 //   return (
 //     <>
-//       <nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
-//         <div class="container">
-//           <Link class="navbar-brand" to="/">CryptoMath</Link>
-//           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-//             <span class="navbar-toggler-icon"></span>
+//       <nav className="navbar navbar-expand-lg sticky-top bg-body-tertiary">
+//         <div className="container">
+//           <Link className="navbar-brand" to="/">CryptoMath</Link>
+//           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+//             <span className="navbar-toggler-icon"></span>
 //           </button>
-//           <div class="collapse navbar-collapse" id="navbarText">
-//             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-//               <li class="nav-item">
-//                 <Link class="nav-link active" aria-current="page" to="/admin/home">Home</Link>
+//           <div className="collapse navbar-collapse" id="navbarText">
+//             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+//               <li className="nav-item">
+//                 <Link className="nav-link active" aria-current="page" to="/admin/home">Home</Link>
 //               </li>
-//               <li class="nav-item">
-//                 <Link class="nav-link" to="/admin/viewTeacher">Teacher</Link>
+//               <li className="nav-item">
+//                 <Link className="nav-link" to="/admin/viewTeacher">Teacher</Link>
 //               </li>
-//               <li class="nav-item">
-//                 <Link class="nav-link" to="/admin/viewParents">Parent</Link>
+//               <li className="nav-item">
+//                 <Link className="nav-link" to="/admin/viewParents">Parent</Link>
 //               </li>
-//               <li class="nav-item">
-//                 <Link class="nav-link" to="/admin/viewStudent">Student</Link>
+//               <li className="nav-item">
+//                 <Link className="nav-link" to="/admin/viewStudent">Student</Link>
 //               </li>
 //             </ul>
 
 //             <div
 //               // style={user === "admin" ? { display: "" } : { display: "none" }}
 //             >
-//               <div class="dropdown drop-lg-start pe-sm-0 pe-lg-5">
+//               <div className="dropdown drop-lg-start pe-sm-0 pe-lg-5">
 //                 <a
 //                   href="#"
-//                   class="d-block text-decoration-none dropdown-toggle"
+//                   className="d-block text-decoration-none dropdown-toggle"
 //                   data-bs-toggle="dropdown"
 //                   aria-expanded="false"
 //                 >
@@ -145,27 +158,27 @@ export default Header;
 //                     alt="mdo"
 //                     width="25"
 //                     height="25"
-//                     class="rounded-circle"
+//                     className="rounded-circle"
 //                   />
 //                 </a>
-//                 <ul class="dropdown-menu text-small">
+//                 <ul className="dropdown-menu text-small">
 //                   <li>
-//                     <a class="dropdown-item" href="#">
+//                     <a className="dropdown-item" href="#">
 //                       Admin
 //                     </a>
 //                   </li>
 //                   <li>
-//                     <a class="dropdown-item" href="#">
+//                     <a className="dropdown-item" href="#">
 //                       Settings
 //                     </a>
 //                   </li>
 //                   {/* <li>
-//                     <a class="dropdown-item" href="#">
+//                     <a className="dropdown-item" href="#">
 //                       Profile
 //                     </a>
 //                   </li> */}
 //                   <li>
-//                     <hr class="dropdown-divider" />
+//                     <hr className="dropdown-divider" />
 //                   </li>
 //                   <li>
 //                     <a className="dropdown-item" onClick={Logout}>

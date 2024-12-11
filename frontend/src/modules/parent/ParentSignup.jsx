@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../style/login.css";
-import girl from "../assets/login/girl.png";
-import { BaseUrl } from "../constant";
+import "../../style/login.css";
+import girl from "../../assets/login/girl.png";
+import { BaseUrl } from "../../constant";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -29,7 +29,7 @@ function ParentSignup() {
     try {
       const res = await axios.post(`${BaseUrl}/auth/register`, logData);
       const result = res.data;
-      console.log(logData);
+      // console.log(logData);
       navigate("/login");
     } catch (err) {
       console.log(err);
@@ -39,9 +39,9 @@ function ParentSignup() {
   return (
     <div>
       <div>
-        <section>
-          <div class="leaves">
-            <div class="set">
+        <section className="loginSection">
+          <div className="leaves">
+            <div className="set">
               <div>
                 <img src="leaf_02.png" />
               </div>
@@ -68,13 +68,13 @@ function ParentSignup() {
               </div>
             </div>
           </div>
-          <img src="bg.jpg" class="bg" />
-          <img src={girl} class="girl" />
-          <img src="trees.png" class="trees" />
-          <form class="login" onSubmit={HandleSubmit}>
+          <img src="bg.jpg" className="bg" />
+          <img src={girl} className="girl" />
+          <img src="trees.png" className="trees" />
+          <form className="login" onSubmit={HandleSubmit}>
             <h2>Parent Register</h2>
 
-            <div class="inputBox">
+            <div className="inputBox">
               <input
                 type="text"
                 name="name"
@@ -83,7 +83,7 @@ function ParentSignup() {
                 required
               />
             </div>
-            <div class="inputBox">
+            <div className="inputBox">
               <input
                 type="email"
                 name="email"
@@ -92,7 +92,7 @@ function ParentSignup() {
                 required
               />
             </div>
-            <div class="inputBox">
+            <div className="inputBox">
               <input
                 type="number"
                 name="number"
@@ -101,7 +101,7 @@ function ParentSignup() {
                 required
               />
             </div>
-            <div class="inputBox">
+            <div className="inputBox">
               <input
                 type="password"
                 name="password"
@@ -110,7 +110,7 @@ function ParentSignup() {
                 required
               />
             </div>
-            <div class="inputBox">
+            <div className="inputBox">
               <input
                 type="password"
                 placeholder="Re-enter Password"
@@ -118,10 +118,10 @@ function ParentSignup() {
                 required
               />
             </div>
-            <div class="inputBox">
+            <div className="inputBox">
               <input type="submit" value="Signup" id="btn" />
             </div>
-            <div class="group">
+            <div className="group">
               <a href="#"></a>
               <a href="/login">Login</a>
             </div>

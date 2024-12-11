@@ -5,7 +5,7 @@
   font-family: "Poppins", sans-serif;
 }
 
-section {
+.loginSection {
   position: relative;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@ section {
   overflow: hidden;
 }
 
-section .bg {
+.loginSection .bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,7 +25,7 @@ section .bg {
   pointer-events: none;
 }
 
-section .trees {
+.loginSection .trees {
   position: absolute;
   top: 0;
   left: 0;
@@ -36,7 +36,7 @@ section .trees {
   pointer-events: none;
 }
 
-section .girl {
+.loginSection .girl {
   position: absolute;
   scale: 0.65;
   pointer-events: none;

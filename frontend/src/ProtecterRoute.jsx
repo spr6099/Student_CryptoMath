@@ -1,24 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "./context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate, Route, useNavigate } from "react-router-dom";
 
-function ProtecterRoute({ role, children }) {
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+function ProtecterRoute({ roles, children }) {
+  // const navigate = useNavigate();
+  // const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (user === undefined) return; // wait until user is defined
-
-    if (!user) {
-      navigate("/login");
-    } else if (user.role !== role) {
-      navigate("/");
-    }
-  }, [user, role, navigate]);
-
-//   if (!user || user.role !== role) {
-//     return null;
-//   }
+  // if (user?.role !== "parent") return <Navigate to="/" replace />;
 
   return <>{children}</>;
 }

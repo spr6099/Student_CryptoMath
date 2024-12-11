@@ -28,15 +28,20 @@ function Login() {
       const result = res?.data?.data;
       console.log(result);
       context.setUser(result);
-
+      sessionStorage.setItem("user", JSON.stringify(result) );
+// 
       if (result?.role === "admin") {
         navigate("/admin/home");
+      } else if (result?.role === "parent") {
+        navigate("/parent/home");
+      } else if (result?.role === "teacher") {
+        navigate("/teacher/home");
       } else {
         navigate("/");
       }
     } catch (err) {
-      console.log(err.response.data.message);
-      toast.error(err.response.data.message, {
+      console.log(err?.response?.data?.message);
+      toast.error(err?.response?.data?.message, {
         position: "top-right",
         autoClose: 4000,
         hideProgressBar: false,
@@ -50,9 +55,9 @@ function Login() {
   };
   return (
     <div>
-      <section>
-        <div class="leaves">
-          <div class="set">
+      <section className="loginSection">
+        <div className="leaves">
+          <div className="set">
             <div>
               <img src="leaf_02.png" />
             </div>
@@ -79,12 +84,12 @@ function Login() {
             </div>
           </div>
         </div>
-        <img src="bg.jpg" class="bg" />
-        <img src={girl} class="girl" />
-        <img src="trees.png" class="trees" />
-        <form onSubmit={HandleSubmit} class="login">
+        <img src="bg.jpg" className="bg" />
+        <img src={girl} className="girl" />
+        <img src="trees.png" className="trees" />
+        <form onSubmit={HandleSubmit} className="login">
           <h2>Sign In</h2>
-          <div class="inputBox">
+          <div className="inputBox">
             <input
               type="email"
               placeholder="Username"
@@ -92,7 +97,7 @@ function Login() {
               onChange={HandleChange}
             />
           </div>
-          <div class="inputBox">
+          <div className="inputBox">
             <input
               type="password"
               name="password"
@@ -100,10 +105,10 @@ function Login() {
               onChange={HandleChange}
             />
           </div>
-          <div class="inputBox">
+          <div className="inputBox">
             <input type="submit" value="Login" id="btn" />
           </div>
-          <div class="group">
+          <div className="group">
             <a href="#"></a>
             <Link to="/parentSignup">Parent Signup</Link>
           </div>

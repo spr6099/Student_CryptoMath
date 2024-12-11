@@ -1,21 +1,11 @@
+const Teacher = require("../model/teacher.model");
+
 const Admins = require("../model/admin.model");
 const Parents = require("../model/parent.model");
 const bcrypt = require("bcrypt");
+const { FindByEmail } = require("./FindByEmail");
 
-async function FindByEmail(email) {
-  try {
-    let user = await Parents.findOne({ email });
-    if (user) {
-      return user;
-    }
-    user = await Admins.findOne({ email });
-    if (user) {
-      return user;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 
 exports.login = async (req, res) => {
   try {
@@ -24,13 +14,13 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-    // if (!isPasswordValid) {
-    //   return res.status(404).json({ message: "password is incorrect" });
-    // }
-    if (password !== user.password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(404).json({ message: "password is incorrect" });
     }
+    // if (password !== user.password) {
+    //   return res.status(404).json({ message: "password is incorrect" });
+    // }
     return res.status(200).json({ message: "Login success", data: user });
   } catch (error) {
     console.log(error);
@@ -43,7 +33,10 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
   try {
     const { name, email, password, number } = req.body;
-
+    const user = await FindByEmail(email);
+    if (user) {
+      return res.status(400).json({ message: "email already existed" });
+    }
     const existingUser = await Parents.findOne({
       $or: [{ email }, { name }, { number }],
     });
@@ -54,8 +47,8 @@ exports.register = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    // await Parents.create({ name, email, number, password: hashedPassword });
-    await Parents.create({ name, email, number, password });
+    await Parents.create({ name, email, number, password: hashedPassword });
+    // await Parents.create({ name, email, number, password });
     return res.status(200).json({ message: "register success" });
   } catch (error) {
     console.log(error);
@@ -64,3 +57,4 @@ exports.register = async (req, res) => {
       .json({ message: "register error", error: error.message });
   }
 };
+
