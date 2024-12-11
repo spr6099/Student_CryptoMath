@@ -193,7 +193,7 @@ function AddStudent() {
             <div class="col-sm-6 form-group">
               <label className="text-dark" for="rel">
                 Relation
-              </label>
+              </label >
               <select class="form-control">
                 <option value=" ">Relation to You</option>
                 <option value="son">Son</option>
