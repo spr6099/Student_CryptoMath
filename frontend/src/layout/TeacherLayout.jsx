@@ -10,7 +10,7 @@ function TeacherLayout() {
   return (
     <div className="d-flex">
       <SideBar />
-      <div className="w-full">
+      <div className="w-100">
         <Outlet />
       </div>
     </div>

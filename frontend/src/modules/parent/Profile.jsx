@@ -5,18 +5,23 @@ import { AuthContext } from "../../context/AuthContext";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import AddProfileDetails from "./AddProfileDetails";
-
+import { BaseUrl } from "../../constant";
+import defaultUser from "../../assets/defaultUser.png";
 function Profile() {
   const [show, setShow] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
 
   const { user } = useContext(AuthContext);
-
   if (!user) {
     return <p>Loading</p>;
   }
 
-  const { name, email, number } = user;
+  const { name, email, number, occupation, address = {}, image } = user;
+  const {
+    state = "N/A",
+    pin = "000000",
+    fullAddress = "Not provided",
+  } = address;
 
   const changeTab = () => {
     setShow(!show);
@@ -24,19 +29,20 @@ function Profile() {
 
   return (
     <div>
-      <div className="container emp-profile bg-secondary">
+      <div className="container emp-profile ">
         <div>
           <div className="row">
             <div className="col-md-4">
               <div className="profile-img">
                 <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
+                  src={image ? `${BaseUrl}/uploads/${image}` : defaultUser}
                   alt=""
+                  style={{ height: "100px", width: "150px" }}
                 />
-                <div className="file btn btn-lg btn-primary">
+                {/* <div className="file btn btn-lg btn-primary">
                   Change Photo
                   <input type="file" name="file" />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-md-6">
@@ -117,7 +123,7 @@ function Profile() {
                       <label>Name</label>
                     </div>
                     <div className="col-md-6">
-                      <p>Kshiti Ghelani</p>
+                      <p>{name}</p>
                     </div>
                   </div>
                   <div className="row">
@@ -141,7 +147,7 @@ function Profile() {
                       <label>Profession</label>
                     </div>
                     <div className="col-md-6">
-                      <p>xxxxxx</p>
+                      <p>{occupation}</p>
                     </div>
                   </div>
                   <div className="row">
@@ -149,7 +155,9 @@ function Profile() {
                       <label>Address</label>
                     </div>
                     <div className="col-md-6">
-                      <p>xxxxx</p>
+                      <p>{fullAddress}</p>
+                      <p>{state}</p>
+                      <p>{pin}</p>
                     </div>
                   </div>
                 </div>
@@ -230,9 +238,9 @@ function MyVerticallyCenteredModal(props) {
       centered
     >
       <div>
-       <AddProfileDetails />
+        <AddProfileDetails />
       </div>
-      
+
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>

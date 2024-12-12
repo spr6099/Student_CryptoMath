@@ -1,114 +1,464 @@
-import React from "react";
-import "../../style/studentProfile.css"
+import React, { useContext, useEffect, useState } from "react";
+import "../../style/parentProfile.css";
+import { AuthContext } from "../../context/AuthContext";
+
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+// import AddProfileDetails from "./AddProfileDetails";
+import { BaseUrl } from "../../constant";
+import defaultUser from "../../assets/defaultUser.png";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Image } from "react-bootstrap";
 function StudentProfile() {
+  const { id } = useParams();
+  const [student, setStudent] = useState({});
+  const [teachers, setTeachers] = useState([]);
+
+  const [show, setShow] = useState("about");
+  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow2, setModalShow2] = React.useState(false);
+
+  const [adddetails, setAdddetails] = useState({ teacher: "", amount: "" });
+
+  const changeTab = (props) => {
+    setShow(props);
+  };
+
+  const { user } = useContext(AuthContext);
+
+  const getStudent = async () => {
+    try {
+      const res = await axios.get(`${BaseUrl}/admin/getstudent/${id}`);
+      setStudent(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const GetTeachers = async () => {
+    try {
+      const res = await axios.get(`${BaseUrl}/admin/getallteacher`);
+      setTeachers(res.data.teachers);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getStudent();
+    GetTeachers();
+  }, []);
+
+  if (!user || !student || !id) {
+    return <p>Loading</p>;
+  }
+
+  const {
+    name,
+    about,
+    dob,
+    email,
+    gender,
+    parent,
+    phone,
+    profileimage,
+    educational,
+    medical,
+  } = student;
+
+  const HandleChange = (e) => {
+    const { name, value } = e.target;
+    setAdddetails({ ...adddetails, [name]: value });
+  };
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formdata = new FormData();
+      formdata.append("fees[amount]", adddetails.amount);
+      formdata.append("teacher", adddetails.teacher);
+
+      const res = await axios.post(
+        `${BaseUrl}/student/update/${id}`,
+        formdata,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
-      <section class="section about-section gray-bg" id="about">
-        <div class="container">
-          <div class="row align-items-center flex-row-reverse">
-            <div class="col-lg-6">
-              <div class="about-text go-to">
-                <h3 class="dark-color">About Me</h3>
-                <h6 class="theme-color lead">
-                  A Lead UX &amp; UI designer based in Canada
-                </h6>
-                <p>
-                  I <mark>design and develop</mark> services for customers of
-                  all sizes, specializing in creating stylish, modern websites,
-                  web services and online stores. My passion is to design
-                  digital user experiences through the bold interface and
-                  meaningful interactions.
-                </p>
-                <div class="row about-list">
-                  <div class="col-md-6">
-                    <div class="media">
-                      <label>Birthday</label>
-                      <p>4th april 1998</p>
-                    </div>
-                    <div class="media">
-                      <label>Age</label>
-                      <p>22 Yr</p>
-                    </div>
-                    <div class="media">
-                      <label>Residence</label>
-                      <p>Canada</p>
-                    </div>
-                    <div class="media">
-                      <label>Address</label>
-                      <p>California, USA</p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="media">
-                      <label>E-mail</label>
-                      <p>info@domain.com</p>
-                    </div>
-                    <div class="media">
-                      <label>Phone</label>
-                      <p>820-885-3321</p>
-                    </div>
-                    <div class="media">
-                      <label>Skype</label>
-                      <p>skype.0404</p>
-                    </div>
-                    <div class="media">
-                      <label>Freelance</label>
-                      <p>Available</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="about-avatar">
-                <img className="studentimg"
-                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                  title=""
+      <div className="container emp-profile ">
+        <div>
+          <div className="row">
+            <div className="col-md-4">
+              <div className="profile-img">
+                <img
+                  // src={image ? `${BaseUrl}/uploads/${image}` : defaultUser}
                   alt=""
+                  style={{ height: "100px", width: "150px" }}
                 />
+                {/* <div className="file btn btn-lg btn-primary">
+                  Change Photo
+                  <input type="file" name="file" />
+                </div> */}
               </div>
             </div>
+            <div className="col-md-6">
+              <div className="profile-head">
+                <h5>{name}</h5>
+                <p className="proile-rating"></p>
+                <ul className="nav nav-tabs" id="myTab" role="tablist">
+                  <li className="nav-item">
+                    <a
+                      onClick={() => changeTab("about")}
+                      className={`nav-link ${show == "about" ? "active" : ""}`}
+                      id="home-tab"
+                      data-toggle="tab"
+                      role="tab"
+                      aria-controls="home"
+                      aria-selected={show === "about"}
+                    >
+                      About
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      onClick={() => changeTab("address")}
+                      className={`nav-link ${
+                        show === "address" ? "active" : ""
+                      }`}
+                      id="profile-tab"
+                      data-toggle="tab"
+                      role="tab"
+                      aria-controls="profile"
+                      aria-selected={show === "address"}
+                    >
+                      Address
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      onClick={() => changeTab("teacher")}
+                      className={`nav-link ${
+                        show === "teacher" ? "active" : ""
+                      }`}
+                      id="profile-tab"
+                      data-toggle="tab"
+                      role="tab"
+                      aria-controls="profile"
+                      aria-selected={show === "teacher"}
+                    >
+                      Teacher
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a
+                      onClick={() => changeTab("fee")}
+                      className={`nav-link ${show === "fee" ? "active" : ""}`}
+                      id="profile-tab"
+                      data-toggle="tab"
+                      role="tab"
+                      aria-controls="profile"
+                      aria-selected={show === "fee"}
+                    >
+                      Fee details
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            {/* <div className="col-md-2">
+              <button
+                className=" profile-edit-btn "
+              >
+                Edit
+              </button>
+            </div> */}
           </div>
-          <div class="counter">
-            <div class="row">
-              <div class="col-6 col-lg-3">
-                <div class="count-data text-center">
-                  <h6 class="count h2" data-to="500" data-speed="500">
-                    500
-                  </h6>
-                  <p class="m-0px font-w-600">Happy Clients</p>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3">
-                <div class="count-data text-center">
-                  <h6 class="count h2" data-to="150" data-speed="150">
-                    150
-                  </h6>
-                  <p class="m-0px font-w-600">Project Completed</p>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3">
-                <div class="count-data text-center">
-                  <h6 class="count h2" data-to="850" data-speed="850">
-                    850
-                  </h6>
-                  <p class="m-0px font-w-600">Photo Capture</p>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3">
-                <div class="count-data text-center">
-                  <h6 class="count h2" data-to="190" data-speed="190">
-                    190
-                  </h6>
-                  <p class="m-0px font-w-600">Telephonic Talk</p>
-                </div>
+          <div className="row">
+            <div className="col-md-4">
+              <div className="profile-work">
+                <p>WORK LINK</p>
+                <a>Website Link</a>
+                <br />
+                <a>Bootsnipp Profile</a>
+                <br />
+                <a>Bootply Profile</a>
+                <p>Certificates</p>
+
+                <button
+                  className="btn "
+                  onClick={() => {
+                    setModalShow(true);
+                  }}
+                >
+                  {" "}
+                  Medical
+                </button>
+                <br />
+                <button
+                  className="btn "
+                  onClick={() => {
+                    setModalShow2(true);
+                  }}
+                >
+                  Educational
+                </button>
+                <br />
               </div>
             </div>
+            <form className="col-md-8" onSubmit={HandleSubmit}>
+              <div className="tab-content profile-tab" id="myTabContent">
+                <div
+                  className={`tab-pane fade ${
+                    show === "about" ? "show active" : ""
+                  } `}
+                  id="home"
+                  role="tabpanel"
+                  aria-labelledby="home-tab"
+                >
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Name</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>{name}</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Email</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>{email}</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Phone</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>{phone}</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Profession</label>
+                    </div>
+                    <div className="col-md-6">{/* <p>{occupation}</p> */}</div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Address</label>
+                    </div>
+                    <div className="col-md-6">
+                      {/* <p>{fullAddress}</p>
+                      <p>{state}</p>
+                      <p>{pin}</p> */}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={`tab-pane fade ${
+                    show === "address" ? "show active" : ""
+                  } `}
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Experience</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxxx</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Hourly Rate</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxx</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Total Projects</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxx</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={`tab-pane fade ${
+                    show === "teacher" ? "show active" : ""
+                  } `}
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Name</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxxxx</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Name</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxxxx</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Name</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxxxx</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Add Teacher</label>
+                    </div>
+                    <div className="col-md-6">
+                      <div class="form-group">
+                        <select
+                          id="teacher"
+                          name="teacher"
+                          className="form-control browser-default custom-select"
+                          // value={data.gender}
+                          onChange={HandleChange}
+                        >
+                          <option value="">Selecte teacher</option>
+                          {teachers &&
+                            teachers.map((items) => (
+                              <option key={items._id} value={items._id}>
+                                {items.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                      <button className="btn btn-success" type="submit">
+                        add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className={`tab-pane fade ${
+                    show === "fee" ? "show active" : ""
+                  } `}
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Paid</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>xxxx</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>Bal fee</label>
+                    </div>
+                    <div className="col-md-6">
+                      <input
+                        type="Number"
+                        name="amount"
+                        onChange={HandleChange}
+                      ></input>{" "}
+                      <button className="btn btn-success" type="submit">
+                        add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </section>
+      </div>
+      <MedicalCertificate
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        images={medical}
+      />
+      <EducationalCertificate
+        show={modalShow2}
+        onHide={() => setModalShow2(false)}
+        images={educational}
+      />
     </div>
   );
 }
 
+function EducationalCertificate({ show, onHide, images }) {
+  return (
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      scrollable
+    >
+      {" "}
+      <Modal.Header closeButton>
+        <Modal.Title>Educational</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {images?.map((items) => (
+          <Image src={`${BaseUrl}/uploads/${items}`} thumbnail />
+        ))}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+function MedicalCertificate({ show, onHide, images }) {
+  return (
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      scrollable
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Medical</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {images &&
+          images.map((items) => (
+            <Image src={`${BaseUrl}/uploads/${items}`} thumbnail />
+          ))}
+      </Modal.Body>
+
+      <Modal.Footer>
+        <Button onClick={onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 export default StudentProfile;

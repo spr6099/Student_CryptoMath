@@ -22,6 +22,8 @@ import Profile from "./modules/parent/Profile";
 import StudentProfile from "./modules/admin/StudentProfile";
 import TeacherLayout from "./layout/TeacherLayout";
 import TeacherHome from "./modules/teacher/Home";
+import NotFound from "./pages/NotFound";
+import Childrens from "./modules/parent/Childrens";
 
 function App() {
   const [user, setUser] = useState();
@@ -47,18 +49,20 @@ function App() {
             <Route path="teacherslist" element={<TeachersList />} />
             <Route path="studentslist" element={<StudentsList />} />
             <Route path="parentslist" element={<ParentsList />} />
-            <Route path="studentProfile" element={<StudentProfile />} />
+            <Route path="studentProfile/:id" element={<StudentProfile />} />
           </Route>
           {/* .....Parent......... */}
           <Route path="/parent" element={<ParentLayout />}>
             <Route path="home" index element={<ParentHome />} />
             <Route path="profile" element={<Profile />} />
             <Route path="addstudent" element={<AddStudent />} />
+            <Route path="childrens" element={<Childrens />} />
           </Route>
           {/* ......Teacher....... */}
           <Route path="/teacher" element={<TeacherLayout />}>
             <Route path="home" element={<TeacherHome />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContext.Provider>
       <ToastContainer />

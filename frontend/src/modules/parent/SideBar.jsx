@@ -31,32 +31,15 @@ function SideBar() {
             </li>
             <li className="sidebar-item">
               <Link to={"/parent/addstudent"} className="sidebar-link">
-                <IoPersonAddOutline /> <span>Add Student</span>
+                <IoPersonAddOutline /> <span>Add children</span>
               </Link>
             </li>
             <li className="sidebar-item">
-              <a
-                className="sidebar-link collapsed has-dropdown   "
-                data-bs-toggle="collapse"
-                data-bs-target="#auth"
-                aria-expanded="false"
-                aria-controls="auth"
-              >
-                <HiOutlineUsers /> <span>Students</span>
-              </a>
-              <ul
-                id="auth"
-                className="sidebar-dropdown list-unstyled collapse"
-                data-bs-parent="#sidebar"
-              >
-                <li className="sidebar-item">
-                  <Link className="sidebar-link">Add Teacher</Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link className="sidebar-link">All Teacher</Link>
-                </li>
-              </ul>
+              <Link to={"/parent/childrens"} className="sidebar-link">
+                 <span>Childrens</span>
+              </Link>
             </li>
+
             {/* <li className="sidebar-item">
               <a
                 //

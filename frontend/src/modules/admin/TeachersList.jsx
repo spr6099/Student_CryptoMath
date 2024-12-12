@@ -10,7 +10,7 @@ function TeachersList() {
       const res = await axios.get(`${BaseUrl}/admin/getallteacher`);
       setTeachers(res.data.teachers);
     } catch (error) {
-      console.log();
+      console.log(error);
     }
   };
 

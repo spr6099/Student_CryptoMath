@@ -26,7 +26,7 @@ function AddTeacher() {
       setData({
         name: "",
         email: "",
-        number: "",
+        phone: "",
         joindate: "",
         password: "",
       });
@@ -61,9 +61,9 @@ function AddTeacher() {
     <div className="p-4">
       {/* <h2 class="text-center text-info">Register</h2> */}
 
-      <div class="container  bg-secondary">
+      <div class="container  ">
         <form onSubmit={HandleSubmit}>
-          <div class="row jumbotron box8 p-5 g-4">
+          <div class="row jumbotron box8 p-5 g-4 bg-secondary">
             <div class="col-sm-12 mx-t3 mb-4 ">
               <h2 class="text-center text-dark">Register</h2>
             </div>

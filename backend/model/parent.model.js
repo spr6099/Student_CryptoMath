@@ -6,19 +6,20 @@ const parentSchema = new mongoose.Schema({
   number: { type: Number, required: true, unique: true },
   password: { type: String, required: true },
   image: { type: String },
+  gender: { type: String }, 
+  dob: { type: String }, 
   address: {
     state: { type: String },
-    district: { type: String },
-    pincode: { type: Number },
-    post: { type: String },
+    pin: { type: Number },
     fullAddress: { type: String },
   },
   occupation: { type: String },
-  relation: { type: String },
+  income: { type: Number },
+  // relation: { type: String },
   role: {
     type: String,
     default: "parent",
-    enum: ["admin", "teacher", "student", "parent"],
+    // enum: ["admin", "teacher", "student", "parent"],
   },
 });
 

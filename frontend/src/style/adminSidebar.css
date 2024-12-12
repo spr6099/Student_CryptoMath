@@ -23,6 +23,9 @@ h1 {
 .wrapper {
   display: flex;
   min-height: 90vh;
+  position: sticky;
+  left: 0;
+  top: 60px;
 }
 
 /* .main {

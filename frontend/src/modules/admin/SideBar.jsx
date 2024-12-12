@@ -29,6 +29,34 @@ function SideBar() {
               </Link>
             </li>
             <li className="sidebar-item">
+              <a
+                //
+                className="sidebar-link collapsed has-dropdown"
+                data-bs-toggle="collapse"
+                data-bs-target="#student"
+                aria-expanded="false"
+                aria-controls="student"
+              >
+                <HiOutlineUsers /> <span>Student</span>
+              </a>
+              <ul
+                id="student"
+                className="sidebar-dropdown list-unstyled collapse"
+                data-bs-parent="#sidebar"
+              >
+                <li className="sidebar-item">
+                  <Link to={"/admin/studentslist"} className="sidebar-link">
+                    All Student
+                  </Link>
+                </li>
+                <li className="sidebar-item">
+                  <Link to={"/admin/studentProfile"} className="sidebar-link">
+                    profile
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className="sidebar-item">
               <Link to={"/admin/parentslist"} className="sidebar-link">
                 <i className="lni lni-agenda"></i>
                 <span>Parent</span>
@@ -62,34 +90,7 @@ function SideBar() {
                 </li>
               </ul>
             </li>
-            <li className="sidebar-item">
-              <a
-                //
-                className="sidebar-link collapsed has-dropdown"
-                data-bs-toggle="collapse"
-                data-bs-target="#student"
-                aria-expanded="false"
-                aria-controls="student"
-              >
-                <HiOutlineUsers /> <span>Student</span>
-              </a>
-              <ul
-                id="student"
-                className="sidebar-dropdown list-unstyled collapse"
-                data-bs-parent="#sidebar"
-              >
-                <li className="sidebar-item">
-                  <Link to={"/admin/studentslist"} className="sidebar-link">
-                    All Student
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to={"/admin/studentProfile"} className="sidebar-link">
-                    profile
-                  </Link>
-                </li>
-              </ul>
-            </li>
+           
             {/* <li className="sidebar-item">
               <a
             

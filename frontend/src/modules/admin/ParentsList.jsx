@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./../../style/TeacherList.css";
+import { BaseUrl } from "../../constant";
+import axios from "axios";
 function ParentsList() {
+  const [parents, setParents] = useState([]);
+
+  const getParents = async () => {
+    try {
+      const res = await axios.get(`${BaseUrl}/admin/getallparents`);
+
+      setParents(res.data.parents);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getParents();
+  }, []);
+
   return (
     <div>
       <main class="table" id="customers_table">
@@ -10,7 +28,6 @@ function ParentsList() {
             <input type="search" placeholder="Search Data..." />
             <img src="images/search.png" alt="" />
           </div>
-          
         </section>
         <section class="table__body">
           <table className="teacherTable">
@@ -25,24 +42,26 @@ function ParentsList() {
               </tr>
             </thead>
             <tbody className="teachertbody">
-              <tr>
-                <td> 1 </td>
-                <td>
-                  {" "}
-                  <img src="images/Zinzu Chan Lee.jpg" alt="" />
-                  Zinzu Chan Lee
-                </td>
-                <td> Seoul </td>
-                <td> 17 Dec, 2022 </td>
-                <td>
-                  <p class="status delivered">Delivered</p>
-                </td>
-                <td>
-                  {" "}
-                  <strong> $128.90 </strong>
-                </td>
-              </tr>
-              <tr>
+              {parents.map((items, index) => (
+                <tr>
+                  <td> {index + 1} </td>
+                  <td>
+                    {" "}
+                    <img src="images/Zinzu Chan Lee.jpg" alt="" />
+                    {items.name}{" "}
+                  </td>
+                  <td> {items.email} </td>
+                  <td> {items.occupation} </td>
+                  <td>
+                    <p class="status delivered">Delivered</p>
+                  </td>
+                  <td>
+                    {" "}
+                    <strong> $128.90 </strong>
+                  </td>
+                </tr>
+              ))}
+              {/* <tr>
                 <td> 2 </td>
                 <td>
                   <img src="images/Jeet Saru.png" alt="" /> Jeet Saru{" "}
@@ -56,7 +75,7 @@ function ParentsList() {
                   {" "}
                   <strong>$5350.50</strong>{" "}
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </section>

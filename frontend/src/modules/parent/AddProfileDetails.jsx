@@ -11,13 +11,15 @@ function AddProfileDetails() {
   const [data, setData] = useState({
     name: user?.name || "",
     email: user?.email || "",
-    phone: user?.phone || "",
-    address: "",
-    state: "",
-    pin: "",
-    gender: "",
-    dob: "",
-    password: "",
+    number: user?.number || "",
+    address: user?.address?.fullAddress || "",
+    state: user?.address?.state || "",
+    pin: user?.address?.pin || "",
+    gender: user?.gender || "",
+    dob: user?.dob || "",
+    // password: "",
+    income: user?.income || "",
+    occupation: user?.occupation || "",
   });
   const [profileImage, setProfileimage] = useState("");
 
@@ -31,32 +33,42 @@ function AddProfileDetails() {
 
     try {
       const formData = new FormData();
+      formData.append("id", user._id);
       formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("phone", data.phone);
+      // formData.append("email", data.email);
+      formData.append("number", data.number);
       formData.append("gender", data.gender);
       formData.append("dob", data.dob);
-      formData.append("password", data.password);
+      // formData.append("password", data.password);
       formData.append("address[state]", data.state);
       formData.append("address[pin]", data.pin);
       formData.append("address[fullAddress]", data.address);
-      formData.append("image", profileImage);
+      formData.append("proimage", profileImage);
+      formData.append("income", data.income);
+      formData.append("occupation", data.occupation);
 
-      const res = await axios.post(`${BaseUrl}/admin/addteacher`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      console.log("ss", res.data);
-      setData({
-        name: "",
-        email: "",
-        phone: "",
-        address: "",
-        state: "",
-        pin: "",
-        gender: "",
-        dob: "",
-        password: "",
-      });
+      const res = await axios.post(
+        `${BaseUrl}/parent/addparentdetails`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      // console.log(res.data);
+
+      sessionStorage.setItem("user", JSON.stringify(res.data.data));
+
+      // setData({
+      //   name: "",
+      //   email: "",
+      //   number: "",
+      //   address: "",
+      //   gender: "",
+      //   dob: "",
+      //   password: "",
+      //   income: "",
+      //   occupation: "",
+      // });
       toast.success(res.data.message, {
         position: "top-center",
         autoClose: 5000,
@@ -85,12 +97,12 @@ function AddProfileDetails() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 ">
       {/* <h2 class="text-center text-info">Register</h2> */}
 
-      <div class="container  bg-secondary">
+      <div class="container  ">
         <form onSubmit={HandleSubmit}>
-          <div class="row jumbotron box8 p-5 g-4">
+          <div class="row jumbotron box8 p-5 g-4 bg-secondary ">
             <div class="col-sm-12 mx-t3 mb-4 ">
               <h2 class="text-center text-dark">Register</h2>
             </div>
@@ -121,7 +133,6 @@ function AddProfileDetails() {
                 id="name-l"
                 placeholder="Enter your last name."
                 onChange={(e) => setProfileimage(e.target.files[0])}
-                required
               />
             </div>
             <div class="col-sm-6 form-group">
@@ -136,12 +147,13 @@ function AddProfileDetails() {
                 id="email"
                 placeholder="Enter your email."
                 onChange={HandleOnchange}
+                disabled
                 required
               />
             </div>
             <div class="col-sm-6 form-group">
               <label className="text-dark" for="address-1">
-                Address Line
+                Address
               </label>
               <textarea
                 type="address"
@@ -154,17 +166,21 @@ function AddProfileDetails() {
                 required
               />
             </div>
-            {/* <div class="col-sm-6 form-group">
-              <label className="text-dark" for="address-2">Address Line-2</label>
+            <div class="col-sm-6 form-group">
+              <label className="text-dark" for="occupat">
+                Occupation
+              </label>
               <input
                 type="address"
                 class="form-control"
-                name="address"
-                id="address-2"
-                placeholder="Village/City Name."
+                name="occupation"
+                value={data.occupation}
+                id="occupat"
+                placeholder="Occupation"
+                onChange={HandleOnchange}
                 required
               />
-            </div> */}
+            </div>
             <div class="col-sm-4 form-group">
               <label className="text-dark" for="State">
                 State
@@ -195,7 +211,36 @@ function AddProfileDetails() {
                 required
               />
             </div>
-
+            <div class="col-sm-6 form-group">
+              <label className="text-dark" for="tel">
+                Mobile{" "}
+              </label>
+              <input
+                type="tel"
+                name="number"
+                value={data.number}
+                class="form-control"
+                id="tel"
+                placeholder="Enter Contact Number."
+                onChange={HandleOnchange}
+                required
+              />
+            </div>
+            <div class="col-sm-6 form-group">
+              <label className="text-dark" for="in">
+                Yearly income
+              </label>
+              <input
+                type="Number"
+                name="income"
+                value={data.income}
+                class="form-control"
+                id="in"
+                placeholder="income."
+                onChange={HandleOnchange}
+                required
+              />
+            </div>
             <div class="col-sm-6 form-group">
               <label className="text-dark" for="Date">
                 Date Of Birth
@@ -211,7 +256,7 @@ function AddProfileDetails() {
                 required
               />
             </div>
-            <div class="col-sm-3 form-group">
+            <div class="col-sm-6 form-group">
               <label className="text-dark" for="sex">
                 Gender
               </label>
@@ -230,38 +275,8 @@ function AddProfileDetails() {
                 <option value="unspesified">Unspecified</option>
               </select>
             </div>
-            <div class="col-sm-3 form-group">
-              <label className="text-dark" for="jd">
-                Joining Date{" "}
-              </label>
-              <input
-                type="Date"
-                name="joindate"
-                value={data.joindate}
-                class="form-control"
-                id="jd"
-                placeholder=""
-                onChange={HandleOnchange}
-                required
-              />
-            </div>
 
-            <div class="col-sm-6 form-group">
-              <label className="text-dark" for="tel">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={data.phone}
-                class="form-control"
-                id="tel"
-                placeholder="Enter Contact Number."
-                onChange={HandleOnchange}
-                required
-              />
-            </div>
-            <div class="col-sm-6 form-group">
+            {/* <div class="col-sm-6 form-group">
               <label className="text-dark" for="pass">
                 Password
               </label>
@@ -275,7 +290,7 @@ function AddProfileDetails() {
                 onChange={HandleOnchange}
                 required
               />
-            </div>
+            </div> */}
             {/* <div class="col-sm-6 form-group">
               <label className="text-dark" for="pass2">Confirm Password</label>
               <input
