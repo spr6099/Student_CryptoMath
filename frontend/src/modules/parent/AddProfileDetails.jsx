@@ -276,6 +276,7 @@ function AddProfileDetails() {
               </select>
             </div>
 
+
             {/* <div class="col-sm-6 form-group">
               <label className="text-dark" for="pass">
                 Password
