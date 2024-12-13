@@ -4,6 +4,16 @@ const { FindByEmail } = require("./FindByEmail");
 const Parents = require("../model/parent.model");
 const Students = require("../model/student.model");
 
+// const nodemailer = require("nodemailer");
+
+// const transporter = nodemailer.createTransport({
+//   service: "gmail", // or another service
+//   auth: {
+//     user: "sandeep.pr3@gmail.com",
+//     pass: "ierfdnetyofxiyna",
+//   },
+// });
+// chrome-> app password-> set name and passkey
 exports.addteacher = async (req, res) => {
   try {
     const { password, email } = req.body;
@@ -17,6 +27,20 @@ exports.addteacher = async (req, res) => {
       ...req.body,
       password: hashedPassword,
     });
+
+    // const mailOptions = {
+    //   from: "abc@gmail.com",
+    //   to: email,
+    //   subject: "login",
+    //   html: `
+    //   <h4>you are registerd cryptomath as teacher. you can login this email and password</h4>
+    //   <p>userName : ${email}</p>
+    //   <p>password:${password}</p>
+    //   `,
+    // };
+    // const x = await transporter.sendMail(mailOptions);
+    // console.log("x", x);
+
     await newTeacher.save();
     return res.status(200).json({ message: "teacher added succesfully" });
   } catch (error) {

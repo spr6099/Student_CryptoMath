@@ -3,130 +3,343 @@ import "../../style/childrens.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { BaseUrl } from "../../constant";
-
+import { Link, useParams } from "react-router-dom";
+import defaultUser from "../../assets/defaultUser.png";
+import { Button, Modal } from "react-bootstrap";
 function Childrens() {
-  const [childrens, setchildrens] = useState([]);
-  const { user } = useContext(AuthContext); // Ensure user is being set properly
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
+  const [studentdata, setstudentdata] = useState({});
 
-  useEffect(() => {
-    // Check if user is defined before calling GetChildrens
-    if (user?._id) {
-      GetChildrens(user._id);
-    }
-  }, [user]);
+  const [show, setShow] = useState("about");
+  const [modalShow, setModalShow] = React.useState(false);
 
-  const GetChildrens = async (userId) => {
+  const changeTab = (props) => {
+    setShow(props);
+  };
+
+  const getStudent = async () => {
     try {
-      console.log("Fetching children for userId:", userId);
-
-      const res = await axios.get(`${BaseUrl}/parent/getchildrens/${userId}`);
-      setchildrens(res.data.data);
+      const res = await axios.get(`${BaseUrl}/parent/getonechild/${id}`);
+      setstudentdata(res.data.data);
     } catch (error) {
-      console.log("Error fetching children:", error);
+      console.log(error);
     }
   };
 
-  console.log("Children:", childrens);
+  useEffect(() => {
+    getStudent();
+  }, []);
 
+  if (!user || !studentdata || !id) {
+    return <p>Loading</p>;
+  }
+
+  const { name, email, phone, image, teacher = {} } = studentdata;
+
+  console.log(studentdata);
+
+  // const HandleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setAdddetails({ ...adddetails, [name]: value });
+  // };
+
+  // const HandleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const formdata = new FormData();
+  //     formdata.append("fees[amount]", adddetails.amount);
+  //     formdata.append("teacher", adddetails.teacher);
+
+  //     const res = await axios.post(
+  //       `${BaseUrl}/student/update/${id}`,
+  //       formdata,
+  //       {
+  //         headers: { "Content-Type": "multipart/form-data" },
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return (
     <>
-      {childrens.map((items, index) => (
-        <div className="p-3">
-          <div class="card user-card-full">
-            <div class="row m-l-0 m-r-0">
-              <div class="col-sm-4 bg-c-lite-green user-profile">
-                <div class="card-block text-center text-white">
-                  <div class="m-b-25">
-                    <img
-                      src="https://img.icons8.com/bubbles/100/000000/user.png"
-                      class="img-radius"
-                      alt="User-Profile-Image"
-                    />
-                  </div>
-                  <h6 class="f-w-600">Hembo Tingor</h6>
-                  <p>Web Designer</p>
-                  <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+      <div>
+        <div className="container emp-profile ">
+          <div>
+            <div className="row">
+              <div className="col-md-4">
+                <div className="profile-img">
+                  <img
+                    // src={image ? `${BaseUrl}/uploads/${image}` : defaultUser}
+                    alt=""
+                    style={{ height: "100px", width: "150px" }}
+                  />
+                  {/* <div className="file btn btn-lg btn-primary">
+                  Change Photo
+                  <input type="file" name="file" />
+                </div> */}
                 </div>
               </div>
-              <div class="col-sm-8 bg-secondary">
-                <div class="card-block">
-                  <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <p class="m-b-10 f-w-600">Email</p>
-                      <h6 class="text-muted f-w-400">rntng@gmail.com</h6>
-                    </div>
-                    <div class="col-sm-6">
-                      <p class="m-b-10 f-w-600">Phone</p>
-                      <h6 class="text-muted f-w-400">98979989898</h6>
-                    </div>
-                  </div>
-                  <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
-                    Projects
-                  </h6>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <p class="m-b-10 f-w-600">Recent</p>
-                      <h6 class="text-muted f-w-400">Sam Disuja</h6>
-                    </div>
-                    <div class="col-sm-6">
-                      <p class="m-b-10 f-w-600">Most Viewed</p>
-                      <h6 class="text-muted f-w-400">Dinoter husainm</h6>
-                    </div>
-                  </div>
-                  <ul class="social-link list-unstyled m-t-40 m-b-10">
-                    <li>
+              <div className="col-md-6">
+                <div className="profile-head">
+                  <h5>{name}</h5>
+                  <p className="proile-rating"></p>
+                  <ul className="nav nav-tabs" id="myTab" role="tablist">
+                    <li className="nav-item">
                       <a
-                        href="#!"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title=""
-                        data-original-title="facebook"
-                        data-abc="true"
+                        onClick={() => changeTab("about")}
+                        className={`nav-link ${
+                          show == "about" ? "active" : ""
+                        }`}
+                        id="home-tab"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-controls="home"
+                        aria-selected={show === "about"}
                       >
-                        <i
-                          class="mdi mdi-facebook feather icon-facebook facebook"
-                          aria-hidden="true"
-                        ></i>
+                        About
                       </a>
                     </li>
-                    <li>
+                    <li className="nav-item">
                       <a
-                        href="#!"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title=""
-                        data-original-title="twitter"
-                        data-abc="true"
+                        onClick={() => changeTab("address")}
+                        className={`nav-link ${
+                          show === "address" ? "active" : ""
+                        }`}
+                        id="profile-tab"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-controls="profile"
+                        aria-selected={show === "address"}
                       >
-                        <i
-                          class="mdi mdi-twitter feather icon-twitter twitter"
-                          aria-hidden="true"
-                        ></i>
+                        Address
                       </a>
                     </li>
-                    <li>
+                    <li className="nav-item">
                       <a
-                        href="#!"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title=""
-                        data-original-title="instagram"
-                        data-abc="true"
+                        onClick={() => changeTab("teacher")}
+                        className={`nav-link ${
+                          show === "teacher" ? "active" : ""
+                        }`}
+                        id="profile-tab"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-controls="profile"
+                        aria-selected={show === "teacher"}
                       >
-                        <i
-                          class="mdi mdi-instagram feather icon-instagram instagram"
-                          aria-hidden="true"
-                        ></i>
+                        Teacher
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        onClick={() => changeTab("fee")}
+                        className={`nav-link ${show === "fee" ? "active" : ""}`}
+                        id="profile-tab"
+                        data-toggle="tab"
+                        role="tab"
+                        aria-controls="profile"
+                        aria-selected={show === "fee"}
+                      >
+                        Fee details
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
+              <div className="col-md-2">
+                <Link to={`/parent/editchildren/${id}`}>
+                  <button className=" profile-edit-btn ">Edit</button>
+                </Link>
+              </div>
             </div>
+
+            <form>
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="profile-work">
+                    <p>WORK LINK</p>
+                    <a>Website Link</a>
+                    <br />
+                    <a>Bootsnipp Profile</a>
+                    <br />
+                    <a>Bootply Profile</a>
+                    <p>Certificates</p>
+
+                    {/* <button
+                      className="btn "
+                      onClick={() => {
+                        setModalShow(true);
+                      }}
+                    >
+                      {" "}
+                      Medical
+                    </button> */}
+
+                    <br />
+                  </div>
+                </div>
+                <div className="col-md-8">
+                  <div className="tab-content profile-tab" id="myTabContent">
+                    <div
+                      className={`tab-pane fade ${
+                        show === "about" ? "show active" : ""
+                      } `}
+                      id="home"
+                      role="tabpanel"
+                      aria-labelledby="home-tab"
+                    >
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Name</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>{name}</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Email</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>{email}</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Phone</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>{phone}</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Profession</label>
+                        </div>
+                        <div className="col-md-6">
+                          {/* <p>{occupation}</p> */}
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Address</label>
+                        </div>
+                        <div className="col-md-6">
+                          {/* <p>{fullAddress}</p>
+                        <p>{state}</p>
+                        <p>{pin}</p> */}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`tab-pane fade ${
+                        show === "address" ? "show active" : ""
+                      } `}
+                      id="profile"
+                      role="tabpanel"
+                      aria-labelledby="profile-tab"
+                    >
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Experience</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>xxxx</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Hourly Rate</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>xxx</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Total Projects</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>xxx</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`tab-pane fade ${
+                        show === "teacher" ? "show active" : ""
+                      } `}
+                      id="profile"
+                      role="tabpanel"
+                      aria-labelledby="profile-tab"
+                    >
+                      <div className="row">
+                        <div className="col-md-6">
+                          <img
+                            src={
+                              image
+                                ? `${BaseUrl}/uploads/${image}`
+                                : defaultUser
+                            }
+                            alt=""
+                            style={{ height: "100px", width: "100px" }}
+                          />{" "}
+                        </div>
+                        <div className="col-md-6">
+                          <p>{teacher.name}</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Provide FeedBack</label>
+                        </div>
+                        <div className="col-md-10">
+                          <textarea className="w-100 "></textarea>{" "}
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Name</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>xxxxx</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`tab-pane fade ${
+                        show === "fee" ? "show active" : ""
+                      } `}
+                      id="profile"
+                      role="tabpanel"
+                      aria-labelledby="profile-tab"
+                    >
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Paid</label>
+                        </div>
+                        <div className="col-md-6">
+                          <p>xxxx</p>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <label>Bal fee</label>
+                        </div>
+                        <div className="col-md-6">{/* {fee} */}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button className="btn btn-primary">submit</button>
+            </form>
           </div>
         </div>
-      ))}
+      </div>
     </>
   );
 }

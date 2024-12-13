@@ -3,6 +3,7 @@ const {
   addparentdetails,
   addstudentdetails,
   getChildrens,
+  getOneChild,
 } = require("../controller/parent.controller");
 const router = express.Router();
 
@@ -32,4 +33,5 @@ router.post(
 );
 
 router.get("/getchildrens/:id", getChildrens);
+router.get("/getonechild/:id", getOneChild);
 module.exports = router;

@@ -54,7 +54,15 @@ function StudentsList() {
                   <td> {items.email} </td>
                   <td> {items.dob} </td>
                   <td>
-                    <p class="status delivered">Delivered</p>
+                    <p
+                      class={`status ${
+                        items.adminstatus === "approve"
+                          ? "delivered"
+                          : "cancelled"
+                      }`}
+                    >
+                      {items.adminstatus}
+                    </p>
                   </td>
                   <td>
                     {" "}

@@ -77,13 +77,27 @@ exports.getChildrens = async (req, res) => {
   try {
     const { id } = req.params;
     // console.log(id);
-    
-    const data = await Student.find({ parent: id }).populate('teacher');
+
+    const data = await Student.find({ parent: id }).populate("teacher");
     return res.status(200).json({ data: data });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
       .json({ message: "error in getchildren", error: error.message });
+  }
+};
+exports.getOneChild = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // console.log(id);
+
+    const data = await Student.findById(id).populate("teacher");
+    return res.status(200).json({ data: data });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ message: "error in getOne child", error: error.message });
   }
 };

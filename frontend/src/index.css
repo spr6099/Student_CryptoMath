@@ -1,0 +1,9 @@
+.layout_overflow{
+    height: 90vh;
+    overflow-x: auto;
+}
+
+/* --to hide scrollbar------ */
+.layout_overflow::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}

@@ -21,7 +21,7 @@ function ParentLayout() {
       </div> */}
       <div className="d-flex">
         <SideBar />
-        <div className=" w-100">
+        <div className=" w-100 layout_overflow">
           <Outlet />
         </div>
       </div>

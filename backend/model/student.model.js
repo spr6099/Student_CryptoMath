@@ -20,14 +20,18 @@ const studentSchema = new mongoose.Schema({
   educational: [{ type: String }],
   relation: { type: String },
   about: { type: String },
-  //   fee: { type: String, default: "pending", enum: ["pending", "paid"] },
+  adminstatus: {
+    type: String,
+    default: "pending",
+    enum: ["approve", "pending"],
+  },
   fees: [feeSchema],
   address: {
     state: { type: String },
     pin: { type: Number },
     fullAddress: { type: String },
   },
- 
+
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: "teachers" },
   parent: { type: mongoose.Schema.Types.ObjectId, ref: "parents" },
 });

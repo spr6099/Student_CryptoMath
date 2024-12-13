@@ -19,7 +19,11 @@ function StudentProfile() {
   const [modalShow, setModalShow] = React.useState(false);
   const [modalShow2, setModalShow2] = React.useState(false);
 
-  const [adddetails, setAdddetails] = useState({ teacher: "", amount: "" });
+  const [adddetails, setAdddetails] = useState({
+    teacher: "",
+    amount: "",
+    adminstatus: "",
+  });
 
   const changeTab = (props) => {
     setShow(props);
@@ -65,6 +69,7 @@ function StudentProfile() {
     profileimage,
     educational,
     medical,
+    adminstatus,
   } = student;
 
   const HandleChange = (e) => {
@@ -76,9 +81,12 @@ function StudentProfile() {
     e.preventDefault();
     try {
       const formdata = new FormData();
-      formdata.append("fees[amount]", adddetails.amount);
-      formdata.append("teacher", adddetails.teacher);
 
+      formdata.append("fees[amount]", adddetails.amount);
+      formdata.append("adminstatus", adddetails.adminstatus);
+      if (adddetails.teacher) {
+        formdata.append("teacher", adddetails.teacher);
+      }
       const res = await axios.post(
         `${BaseUrl}/student/update/${id}`,
         formdata,
@@ -90,13 +98,29 @@ function StudentProfile() {
       console.log(error);
     }
   };
+
+  console.log(adddetails);
+
   return (
     <div>
       <div className="container emp-profile ">
-        <div>
+        <form onSubmit={HandleSubmit}>
           <div className="row">
             <div className="col-md-4">
               <div className="profile-img">
+                <select
+                  id=""
+                  name="adminstatus"
+                  className="form-control browser-default custom-select"
+                  // value={adminstatus}
+                  onChange={HandleChange}
+                >
+                  {/* <option value="">Selecte teacher</option> */}
+
+                  <option value="approve">approve</option>
+                  <option value="pending">pending</option>
+                </select>
+
                 <img
                   // src={image ? `${BaseUrl}/uploads/${image}` : defaultUser}
                   alt=""
@@ -212,7 +236,8 @@ function StudentProfile() {
                 <br />
               </div>
             </div>
-            <form className="col-md-8" onSubmit={HandleSubmit}>
+
+            <div className="col-md-8">
               <div className="tab-content profile-tab" id="myTabContent">
                 <div
                   className={`tab-pane fade ${
@@ -352,9 +377,6 @@ function StudentProfile() {
                             ))}
                         </select>
                       </div>
-                      <button className="btn btn-success" type="submit">
-                        add
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -385,16 +407,16 @@ function StudentProfile() {
                         name="amount"
                         onChange={HandleChange}
                       ></input>{" "}
-                      <button className="btn btn-success" type="submit">
-                        add
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
+          <button className="btn btn-success" type="submit">
+            add
+          </button>
+        </form>
       </div>
       <MedicalCertificate
         show={modalShow}

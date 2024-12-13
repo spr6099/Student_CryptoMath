@@ -34,11 +34,7 @@ function SideBar() {
                 <IoPersonAddOutline /> <span>Add children</span>
               </Link>
             </li>
-            <li className="sidebar-item">
-              <Link to={"/parent/childrens"} className="sidebar-link">
-                 <span>Childrens</span>
-              </Link>
-            </li>
+            
 
             {/* <li className="sidebar-item">
               <a

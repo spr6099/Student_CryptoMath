@@ -24,6 +24,7 @@ import TeacherLayout from "./layout/TeacherLayout";
 import TeacherHome from "./modules/teacher/Home";
 import NotFound from "./pages/NotFound";
 import Childrens from "./modules/parent/Childrens";
+import EditChildren from "./modules/parent/EditChildren";
 
 function App() {
   const [user, setUser] = useState();
@@ -56,7 +57,8 @@ function App() {
             <Route path="home" index element={<ParentHome />} />
             <Route path="profile" element={<Profile />} />
             <Route path="addstudent" element={<AddStudent />} />
-            <Route path="childrens" element={<Childrens />} />
+            <Route path="children/:id" element={<Childrens />} />
+            <Route path="editchildren/:id" element={<EditChildren />} />
           </Route>
           {/* ......Teacher....... */}
           <Route path="/teacher" element={<TeacherLayout />}>
