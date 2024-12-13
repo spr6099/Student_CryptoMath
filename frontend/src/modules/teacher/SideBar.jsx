@@ -25,12 +25,12 @@ function SideBar() {
           </div>
           <ul className="sidebar-nav">
             <li className="sidebar-item">
-              <Link  className="sidebar-link">
+              <Link to='/teacher/home' className="sidebar-link">
                 <MdOutlineDashboard /> <span>DashBoard</span>
               </Link>
             </li>
             <li className="sidebar-item">
-              <Link  className="sidebar-link">
+              <Link to='/teacher/studentlist' className="sidebar-link">
               <HiOutlineUsers /> <span>Students</span>
               </Link>
             </li>
@@ -135,7 +135,7 @@ function SideBar() {
               </a>
             </li> */}
             <li className="sidebar-item">
-              <Link  className="sidebar-link">
+              <Link to='/teacher/profile' className="sidebar-link">
                 <CgProfile /> <span>Profile</span>
               </Link>
             </li>

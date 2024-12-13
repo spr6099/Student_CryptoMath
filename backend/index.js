@@ -7,6 +7,7 @@ const authRouter = require("./routes/auth.router");
 const adminRouter = require("./routes/admin.router");
 const parentRouter = require("./routes/parent.router");
 const studentRouter = require("./routes/student.router");
+const teacherRouter = require("./routes/teacher.route");
 
 const path = require("path");
 
@@ -28,6 +29,7 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/parent", parentRouter);
 app.use("/student", studentRouter);
+app.use("/teacher", teacherRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

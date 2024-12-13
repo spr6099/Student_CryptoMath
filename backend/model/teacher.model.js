@@ -7,6 +7,8 @@ const teacherSchema = new mongoose.Schema({
   joindate: { type: String },
   password: { type: String, required: true },
   image: { type: String },
+  gender: { type: String },
+  specializedIn : { type: String },
   dob: { type: String },
   address: {
     state: { type: String },
