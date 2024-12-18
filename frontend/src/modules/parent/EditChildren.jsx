@@ -4,11 +4,12 @@ import { BaseUrl } from "../../constant";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditChildren() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [profileimg, setProfileimg] = useState("");
   const [medical, setMedical] = useState([]);
   const [educational, setEducational] = useState([]);
@@ -20,7 +21,7 @@ function EditChildren() {
     pin: "",
     dob: "",
     phone: "",
-    password: "",
+    // password: "",
     gender: "",
     about: "",
     relation: "",
@@ -35,20 +36,32 @@ function EditChildren() {
       const {
         name,
         email,
-        fullAddress,
-        state,
-        pin,
+        address = {},
+        medical = [],
+        educational = [],
         dob,
         phone,
-        password,
         gender,
         about,
         relation,
+        profileimage,
       } = result;
+      const { fullAddress, pin, state } = address;
       setData({
         name,
         email,
+        dob,
+        phone,
+        gender,
+        about,
+        relation,
+        fullAddress,
+        pin,
+        state,
       });
+      setProfileimg(profileimage);
+      setMedical(medical);
+      setEducational(educational);
     } catch (error) {
       console.log(error);
     }
@@ -68,12 +81,13 @@ function EditChildren() {
 
     try {
       const formData = new FormData();
+      formData.append("id", id);
       formData.append("name", data.name);
       formData.append("email", data.email);
       formData.append("phone", data.phone);
       formData.append("gender", data.gender);
       formData.append("dob", data.dob);
-      formData.append("password", data.password);
+      //   formData.append("password", data.password);
       formData.append("address[state]", data.state);
       formData.append("address[pin]", data.pin);
       formData.append("address[fullAddress]", data.fullAddress);
@@ -94,13 +108,14 @@ function EditChildren() {
       }
 
       const res = await axios.post(
-        `${BaseUrl}/parent/addstudentdetails`,
+        `${BaseUrl}/student/update/${id}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
       console.log(res.data);
+      navigate(-1);
       setData({
         name: "",
         email: "",
@@ -108,43 +123,48 @@ function EditChildren() {
         address: "",
         gender: "",
         dob: "",
-        password: "",
+        // password: "",
         income: "",
         occupation: "",
       });
-      toast.success(res.data.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        // transition: Bounce,
-      });
+      //   toast.success(res.data.message, {
+      //     position: "top-center",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //     // transition: Bounce,
+      //   });
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        // transition: Bounce,
-      });
+      //   toast.error(error.response.data.message, {
+      //     position: "top-center",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "light",
+      //     // transition: Bounce,
+      //   });
     }
   };
+
+  // console.log(data);
+  // console.log(profileimg);
+  // console.log(educational);
+  // console.log(medical);
 
   return (
     <div className="p-4">
       {/* <h2 class="text-center text-info">Register</h2> */}
 
       <div class="container  ">
-        <form>
+        <form onSubmit={HandleSubmit}>
           <div class="row jumbotron box8 p-5 g-4 bg-secondary">
             <div class="col-sm-12 mx-t3 mb-4 ">
               <h2 class="text-center text-dark">Edit</h2>
@@ -161,22 +181,24 @@ function EditChildren() {
                 value={data.name}
                 onChange={HandleOnchange}
                 placeholder="Enter  name."
-                required
               />
             </div>
             <div class="col-sm-6 form-group">
               <label className="text-dark" for="profileimg">
                 Image
               </label>
+              <img
+                style={{ height: "50px", width: "50px" }}
+                src={`${BaseUrl}/uploads/${profileimg}`}
+              />
               <input
                 type="file"
                 class="form-control"
                 name="profileimg"
-                // value={data.profileimg}
-                // onChange={(e) => setProfileimg(e.target.files[0])}
+                value={data.profileimg}
+                onChange={(e) => setProfileimg(e.target.files[0])}
                 id="profileimg"
                 placeholder=""
-                required
               />
             </div>
             <div class="col-sm-6 form-group">
@@ -191,7 +213,6 @@ function EditChildren() {
                 value={data.email}
                 onChange={HandleOnchange}
                 placeholder="Enter email."
-                required
               />
             </div>
             <div class="col-sm-6 form-group">
@@ -206,7 +227,6 @@ function EditChildren() {
                 value={data.fullAddress}
                 onChange={HandleOnchange}
                 placeholder="Locality/House/Street no."
-                required
               />
             </div>
             <div class="col-sm-4 form-group">
@@ -221,7 +241,6 @@ function EditChildren() {
                 value={data.state}
                 onChange={HandleOnchange}
                 placeholder="Enter your state name."
-                required
               />
             </div>
 
@@ -237,7 +256,6 @@ function EditChildren() {
                 value={data.pin}
                 onChange={HandleOnchange}
                 placeholder="Pin-Code."
-                required
               />
             </div>
 
@@ -253,7 +271,6 @@ function EditChildren() {
                 value={data.dob}
                 onChange={HandleOnchange}
                 placeholder=""
-                required
               />
             </div>
             <div class="col-sm-3 form-group">
@@ -264,8 +281,8 @@ function EditChildren() {
                 id="sex"
                 name="gender"
                 class="form-control browser-default custom-select"
-                // value={data.gender}
-                // onChange={HandleOnchange}
+                value={data.gender}
+                onChange={HandleOnchange}
               >
                 <option value="">Selected</option>
                 <option value="male">Male</option>
@@ -284,12 +301,11 @@ function EditChildren() {
                 class="form-control"
                 id="tel"
                 placeholder="Enter Contact Number."
-                // value={data.phone}
-                // onChange={HandleOnchange}
-                required
+                value={data.phone}
+                onChange={HandleOnchange}
               />
             </div>
-            <div class="col-sm-6 form-group">
+            {/* <div class="col-sm-6 form-group">
               <label className="text-dark" for="pass">
                 Password
               </label>
@@ -301,9 +317,8 @@ function EditChildren() {
                 placeholder=" password."
                 // value={data.password}
                 // onChange={HandleOnchange}
-                required
               />
-            </div>
+            </div> */}
 
             <hr></hr>
 
@@ -311,15 +326,22 @@ function EditChildren() {
               <label className="text-dark" for="mc">
                 Medical Certificate
               </label>
+              {medical &&
+                medical.map((items, index) => (
+                  <img
+                    className="m-1"
+                    style={{ height: "50px", width: "50px" }}
+                    src={`${BaseUrl}/uploads/${items}`}
+                  />
+                ))}
               <input
                 type="file"
                 class="form-control"
                 name="medical"
                 id="mc"
-                // value={data.medical}
-                // onChange={(e) => setMedical([...e.target.files])}
+                value={data.medical}
+                onChange={(e) => setMedical([...e.target.files])}
                 placeholder=""
-                required
                 multiple
               />
             </div>
@@ -333,25 +355,31 @@ function EditChildren() {
                 class="form-control"
                 name="about"
                 id="about"
-                // value={data.about}
-                // onChange={HandleOnchange}
+                value={data.about}
+                onChange={HandleOnchange}
                 placeholder="enter about your kid"
-                required
               />
             </div>
             <div class="col-sm-6 form-group">
               <label className="text-dark" for="ec">
                 Educational Certificates
               </label>
+              {educational &&
+                educational.map((items, index) => (
+                  <img
+                    className="m-1"
+                    style={{ height: "50px", width: "50px" }}
+                    src={`${BaseUrl}/uploads/${items}`}
+                  />
+                ))}
               <input
                 type="file"
                 class="form-control"
                 name=""
                 id="ec"
-                // onChange={(e) => setEducational([...e.target.files])}
+                onChange={(e) => setEducational([...e.target.files])}
                 placeholder=""
                 multiple
-                required
               />
             </div>
 
@@ -362,8 +390,8 @@ function EditChildren() {
               <select
                 name="relation"
                 class="form-control"
-                // value={data.relation}
-                // onChange={HandleOnchange}
+                value={data.relation}
+                onChange={HandleOnchange}
               >
                 <option value=" ">Relation to You</option>
                 <option value="son">Son</option>

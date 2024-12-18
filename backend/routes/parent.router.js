@@ -4,6 +4,10 @@ const {
   addstudentdetails,
   getChildrens,
   getOneChild,
+  updatestudentdetails,
+  addFeedback,
+  GetFeedBack,
+  payment
 } = require("../controller/parent.controller");
 const router = express.Router();
 
@@ -34,4 +38,8 @@ router.post(
 
 router.get("/getchildrens/:id", getChildrens);
 router.get("/getonechild/:id", getOneChild);
+router.post("/addfeedback", addFeedback);
+router.post("/getfeedback", GetFeedBack);
+// router.post('/verify-payment',payment);
+
 module.exports = router;

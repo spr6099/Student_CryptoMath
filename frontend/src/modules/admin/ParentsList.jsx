@@ -47,7 +47,7 @@ function ParentsList() {
                   <td> {index + 1} </td>
                   <td>
                     {" "}
-                    <img src="images/Zinzu Chan Lee.jpg" alt="" />
+                      <img src={`${BaseUrl}/uploads/${items.image}`} alt="" />{" "}
                     {items.name}{" "}
                   </td>
                   <td> {items.email} </td>

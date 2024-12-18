@@ -13,7 +13,7 @@ function SideBar() {
   };
   return (
     <div>
-      <div className="wrapper">
+      <div className="sidebar_wrapper">
         <aside id="sidebar" className={isExpanded ? "expand" : ""}>
           <div className="d-flex">
             <button className="toggle-btn" onClick={HandleToggle} type="button">

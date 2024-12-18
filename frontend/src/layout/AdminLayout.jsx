@@ -5,7 +5,9 @@ import { AuthContext } from "../context/AuthContext";
 
 function AdminLayout() {
   const { user } = useContext(AuthContext);
-  if (user&&user.role !== "admin") return <Navigate to="/" />;
+  // const sessionUser = JSON.parse(sessionStorage.getItem("user"));
+
+  if (user && user.role !== "admin") return <Navigate to="/" />;
 
   return (
     <div>

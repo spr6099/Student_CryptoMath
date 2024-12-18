@@ -45,7 +45,7 @@ function StudentsList() {
                 <th> Email</th>
                 <th> dob </th>
                 <th> Status</th>
-                <th> Fee balance</th>
+                {/* <th> Fee balance</th> */}
               </tr>
             </thead>
             <tbody className="teachertbody">
@@ -53,8 +53,11 @@ function StudentsList() {
                 <tr key={items._id}>
                   <td> {index + 1} </td>
                   <td>
-                    <Link>
-                      <img src={`${BaseUrl}/uploads/${items.profileimage}`} alt={items.name} />
+                    <Link to={`/teacher/studentprofile/${items._id}`}>
+                      <img
+                        src={`${BaseUrl}/uploads/${items.profileimage}`}
+                        alt={items.name}
+                      />
                       {items.name}
                     </Link>
                   </td>
@@ -62,18 +65,18 @@ function StudentsList() {
                   <td> {items.dob} </td>
                   <td>
                     <p
-                      class={`status ${items.adminstatus === "approve"
-                        ? "delivered"
-                        : "cancelled"
-                        }`}
+                      class={`status ${
+                        items.adminstatus === "approve"
+                          ? "delivered"
+                          : "cancelled"
+                      }`}
                     >
                       {items.adminstatus}
                     </p>
                   </td>
-                  <td>
-
+                  {/* <td>
                     <strong> $128.90 </strong>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
               {/* <tr>

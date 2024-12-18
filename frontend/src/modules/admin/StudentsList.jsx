@@ -37,7 +37,7 @@ function StudentsList() {
                 <th> Email</th>
                 <th> dob </th>
                 <th> Status</th>
-                <th> Fee balance</th>
+                {/* <th> Fee balance</th> */}
               </tr>
             </thead>
             <tbody className="teachertbody">
@@ -47,7 +47,7 @@ function StudentsList() {
                   <td>
                     {" "}
                     <Link to={`/admin/studentProfile/${items._id}`}>
-                      <img src="images/Zinzu Chan Lee.jpg" alt="" />{" "}
+                      <img src={`${BaseUrl}/uploads/${items.profileimage}`} alt="" />{" "}
                       {items.name}
                     </Link>
                   </td>
@@ -64,10 +64,10 @@ function StudentsList() {
                       {items.adminstatus}
                     </p>
                   </td>
-                  <td>
+                  {/* <td>
                     {" "}
                     <strong> $128.90 </strong>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
               {/* <tr>

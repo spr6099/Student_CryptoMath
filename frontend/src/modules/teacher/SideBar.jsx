@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../../style/adminSidebar.css";
-import { Md10K, MdOutlineMenu } from "react-icons/md";
+import { Md10K, MdOutlineMenu, MdOutlineDashboard} from "react-icons/md";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import { MdOutlineDashboard } from "react-icons/md";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { HiOutlineUsers } from "react-icons/hi";
+import { BiLogOut } from "react-icons/bi";
+
 function SideBar() {
   const [isExpanded, setExpanded] = useState(true);
   const HandleToggle = () => {
@@ -13,7 +14,7 @@ function SideBar() {
   };
   return (
     <div>
-      <div className="wrapper">
+      <div className="sidebar_wrapper">
         <aside id="sidebar" className={isExpanded ? "expand" : ""}>
           <div className="d-flex">
             <button className="toggle-btn" onClick={HandleToggle} type="button">
@@ -26,12 +27,12 @@ function SideBar() {
           <ul className="sidebar-nav">
             <li className="sidebar-item">
               <Link to='/teacher/home' className="sidebar-link">
-                <MdOutlineDashboard /> <span>DashBoard</span>
+                <MdOutlineDashboard className="sidebar_icon"/> <span>DashBoard</span>
               </Link>
             </li>
             <li className="sidebar-item">
               <Link to='/teacher/studentlist' className="sidebar-link">
-              <HiOutlineUsers /> <span>Students</span>
+              <HiOutlineUsers className="sidebar_icon" /> <span>Students</span>
               </Link>
             </li>
             {/* <li className="sidebar-item">
@@ -136,13 +137,13 @@ function SideBar() {
             </li> */}
             <li className="sidebar-item">
               <Link to='/teacher/profile' className="sidebar-link">
-                <CgProfile /> <span>Profile</span>
+                <CgProfile className="sidebar_icon"/> <span>Profile</span>
               </Link>
             </li>
           </ul>
           <div className="sidebar-footer">
             <a className="sidebar-link">
-              <i className="lni lni-exit"></i>
+              <BiLogOut className="sidebar_icon" />
               <span>Logout</span>
             </a>
           </div>

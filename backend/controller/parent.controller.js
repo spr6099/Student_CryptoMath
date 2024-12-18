@@ -1,6 +1,16 @@
+const feedbackModel = require("../model/feedback.model");
 const Parents = require("../model/parent.model");
 const Student = require("../model/student.model");
 const bcrypt = require("bcrypt");
+
+// const crypto = require('crypto');
+// const razorpay = require('razorpay');
+
+
+// const instance = new razorpay({
+//   key_id: 'rzp_test_4Ex6Tyjkp79GFy',
+//   key_secret: 'lVGcQB0HSAttEhr7mq4AbM7Z',
+// });
 
 exports.addparentdetails = async (req, res) => {
   try {
@@ -87,12 +97,15 @@ exports.getChildrens = async (req, res) => {
       .json({ message: "error in getchildren", error: error.message });
   }
 };
+
 exports.getOneChild = async (req, res) => {
   try {
     const { id } = req.params;
     // console.log(id);
 
-    const data = await Student.findById(id).populate("teacher");
+    const data = await Student.findById(id)
+      .populate("teacher")
+      .populate("parent");
     return res.status(200).json({ data: data });
   } catch (error) {
     console.log(error);
@@ -101,3 +114,52 @@ exports.getOneChild = async (req, res) => {
       .json({ message: "error in getOne child", error: error.message });
   }
 };
+
+exports.addFeedback = async (req, res) => {
+  try {
+    await feedbackModel.create(req.body);
+    return res.status(200).json({ message: "feedback submitted" });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(400)
+      .json({ message: "feedback submition failed", error: err.message });
+  }
+};
+
+exports.GetFeedBack = async (req, res) => {
+  try {
+    const { studentId, teacherId } = req.body;
+    const data = await feedbackModel
+      .find({ studentId, teacherId })
+      .sort({ updatedAt: -1 });
+    return res.status(200).send(data);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(400)
+      .json({ message: "feedback submition failed", error: err.message });
+  }
+};
+
+
+
+
+
+
+// exports.payment=(req, res) => {
+//   const { payment_id, order_id, signature } = req.body;
+
+//   const body = order_id + "|" + payment_id;
+//   const generated_signature = crypto
+//     .createHmac('sha256', instance.key_secret)
+//     .update(body)
+//     .digest('hex');
+
+//   if (generated_signature === signature) {
+//     res.status(200).send({ success: true });
+
+//   } else {
+//     res.status(400).send({ success: false });
+//   }
+// }

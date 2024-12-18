@@ -1,5 +1,5 @@
 const express = require("express");
-const { update } = require("../controller/student.controller");
+const { update, score } = require("../controller/student.controller");
 const multer = require("multer");
 const router = express.Router();
 
@@ -24,4 +24,6 @@ router.post(
   ]),
   update
 );
+router.post("/score", score);
+
 module.exports = router;

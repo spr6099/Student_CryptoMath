@@ -26,16 +26,21 @@ function Login() {
     try {
       const res = await axios.post(`${BaseUrl}/auth/login`, logData);
       const result = res?.data?.data;
-      console.log(result);
+      // console.log(result);
       context.setUser(result);
-      sessionStorage.setItem("user", JSON.stringify(result) );
-// 
+      sessionStorage.setItem("user", JSON.stringify(result));
+      //
       if (result?.role === "admin") {
         navigate("/admin/home");
       } else if (result?.role === "parent") {
         navigate("/parent/home");
       } else if (result?.role === "teacher") {
         navigate("/teacher/home");
+      } else if (
+        result?.role === "student" &&
+        result?.adminstatus === "approve"
+      ) {
+        navigate("/student/home");
       } else {
         navigate("/");
       }

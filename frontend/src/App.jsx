@@ -22,9 +22,21 @@ import Profile from "./modules/parent/Profile";
 import StudentProfile from "./modules/admin/StudentProfile";
 import TeacherLayout from "./layout/TeacherLayout";
 import TeacherHome from "./modules/teacher/Home";
+import TeacherProfile from "./modules/teacher/Profile";
+import TeacherStudentList from "./modules/teacher/StudentsList";
+import TeacherStudentProfile from "./modules/teacher/StudentProfile";
 import NotFound from "./pages/NotFound";
-import Childrens from "./modules/parent/Childrens";
+import Childrens from "./modules/parent/ChildProfile";
 import EditChildren from "./modules/parent/EditChildren";
+import StudentLayout from "./layout/StudentLayout";
+import StudentHome from "./modules/student/Home";
+import ChatContainer from "./components/chat/ChatContainer";
+import Games from "./modules/student/Games";
+import Typing from "./modules/student/gamePages/typing";
+import Guess from "./modules/student/gamePages/guess";
+import Fruit from "./modules/student/gamePages/fruit";
+import Snake from "./modules/student/gamePages/snakeReact/snake";
+import PaymentComponent from "./components/RazorPay";
 
 function App() {
   const [user, setUser] = useState();
@@ -59,10 +71,34 @@ function App() {
             <Route path="addstudent" element={<AddStudent />} />
             <Route path="children/:id" element={<Childrens />} />
             <Route path="editchildren/:id" element={<EditChildren />} />
+            <Route path="payment" element={<PaymentComponent   />} />
+            <Route
+              path="chat/:chatId"
+              element={<ChatContainer />}
+            />
           </Route>
           {/* ......Teacher....... */}
           <Route path="/teacher" element={<TeacherLayout />}>
             <Route path="home" element={<TeacherHome />} />
+            <Route path="profile" element={<TeacherProfile />} />
+            <Route path="studentlist" element={<TeacherStudentList />} />
+            <Route
+              path="studentprofile/:id"
+              element={<TeacherStudentProfile />}
+            />
+            <Route
+              path="chat/:chatId"
+              element={<ChatContainer />}
+            />
+          </Route>
+          <Route path="/student" element={<StudentLayout />}>
+            <Route path="home" element={<StudentHome />} />
+            <Route path="games" element={<Games />} />
+            {/* <======games=====> */}
+            <Route path="typing" element={<Typing />} />
+            <Route path="guess" element={<Guess />} />
+            <Route path="fruit" element={<Fruit />} />
+            <Route path="snake" element={<Snake />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

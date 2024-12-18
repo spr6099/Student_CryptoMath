@@ -14,6 +14,7 @@ function StudentProfile() {
   const { id } = useParams();
   const [student, setStudent] = useState({});
   const [teachers, setTeachers] = useState([]);
+  const [isSubmitted, setisSubmitted] = useState(false);
 
   const [show, setShow] = useState("about");
   const [modalShow, setModalShow] = React.useState(false);
@@ -21,7 +22,7 @@ function StudentProfile() {
 
   const [adddetails, setAdddetails] = useState({
     teacher: "",
-    amount: "",
+    fees: "",
     adminstatus: "",
   });
 
@@ -49,15 +50,6 @@ function StudentProfile() {
     }
   };
 
-  useEffect(() => {
-    getStudent();
-    GetTeachers();
-  }, []);
-
-  if (!user || !student || !id) {
-    return <p>Loading</p>;
-  }
-
   const {
     name,
     about,
@@ -65,7 +57,9 @@ function StudentProfile() {
     email,
     gender,
     parent,
+    teacher,
     phone,
+    fees = {},
     profileimage,
     educational,
     medical,
@@ -82,11 +76,18 @@ function StudentProfile() {
     try {
       const formdata = new FormData();
 
-      formdata.append("fees[amount]", adddetails.amount);
-      formdata.append("adminstatus", adddetails.adminstatus);
       if (adddetails.teacher) {
         formdata.append("teacher", adddetails.teacher);
       }
+      if (adddetails.fees) {
+        formdata.append("fees[amount]", adddetails.fees);
+      }
+      if (adddetails.adminstatus) {
+        formdata.append("adminstatus", adddetails.adminstatus);
+      }
+
+      console.log(adddetails);
+
       const res = await axios.post(
         `${BaseUrl}/student/update/${id}`,
         formdata,
@@ -94,12 +95,34 @@ function StudentProfile() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+      if (res.status == 200) {
+        setisSubmitted(true);
+        setAdddetails({
+          teacher: "",
+          fees: "",
+          adminstatus: "",
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(adddetails);
+  useEffect(() => {
+    if (isSubmitted) {
+      getStudent();
+      setisSubmitted(false);
+    }
+  }, [isSubmitted]);
+
+  useEffect(() => {
+    getStudent();
+    GetTeachers();
+  }, []);
+
+  if (!user || !student || !id) {
+    return <p>Loading</p>;
+  }
 
   return (
     <div>
@@ -108,19 +131,7 @@ function StudentProfile() {
           <div className="row">
             <div className="col-md-4">
               <div className="profile-img">
-                <select
-                  id=""
-                  name="adminstatus"
-                  className="form-control browser-default custom-select"
-                  // value={adminstatus}
-                  onChange={HandleChange}
-                >
-                  {/* <option value="">Selecte teacher</option> */}
-
-                  <option value="approve">approve</option>
-                  <option value="pending">pending</option>
-                </select>
-
+                <p className="bg-primary">{adminstatus}</p>{" "}
                 <img
                   // src={image ? `${BaseUrl}/uploads/${image}` : defaultUser}
                   alt=""
@@ -192,6 +203,11 @@ function StudentProfile() {
                     >
                       Fee details
                     </a>
+                  </li>
+                  <li className="nav-item">
+                    <button className="btn btn-success" type="submit">
+                      add
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -349,10 +365,10 @@ function StudentProfile() {
                   </div>
                   <div className="row">
                     <div className="col-md-6">
-                      <label>Name</label>
+                      <label>Teacher</label>
                     </div>
                     <div className="col-md-6">
-                      <p>xxxxx</p>
+                      <p>{teacher?.name}</p>
                     </div>
                   </div>
                   <div className="row">
@@ -391,6 +407,14 @@ function StudentProfile() {
                 >
                   <div className="row">
                     <div className="col-md-6">
+                      <label>Fee</label>
+                    </div>
+                    <div className="col-md-6">
+                      <p>{fees.amount}</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
                       <label>Paid</label>
                     </div>
                     <div className="col-md-6">
@@ -404,18 +428,37 @@ function StudentProfile() {
                     <div className="col-md-6">
                       <input
                         type="Number"
-                        name="amount"
+                        name="fees"
+                        value={adddetails.fees}
                         onChange={HandleChange}
                       ></input>{" "}
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>status</label>
+                    </div>
+                    <div className="col-md-6">
+                      {/* {adminstatus && ( */}
+                      <select
+                        id=""
+                        name="adminstatus"
+                        className="form-control browser-default custom-select"
+                        // value={adminstatus}
+                        onChange={HandleChange}
+                      >
+                        {/* <option value={adminstatus}>{adminstatus}</option> */}
+
+                        <option value="approve">approve</option>
+                        <option value="pending">pending</option>
+                      </select>
+                      {/* )} */}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <button className="btn btn-success" type="submit">
-            add
-          </button>
         </form>
       </div>
       <MedicalCertificate

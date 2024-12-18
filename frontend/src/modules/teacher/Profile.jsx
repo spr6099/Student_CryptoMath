@@ -17,7 +17,7 @@ function Profile() {
     return <p>Loading</p>;
   }
 
-  const { name, email, number, occupation, address = {}, image } = user;
+  const { name, email, phone, occupation, address = {}, image } = user;
   const {
     state = "N/A",
     pin = "000000",
@@ -140,17 +140,10 @@ function Profile() {
                       <label>Phone</label>
                     </div>
                     <div className="col-md-6">
-                      <p>{number}</p>
+                      <p>{phone}</p>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Profession</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>{occupation}</p>
-                    </div>
-                  </div>
+                  
                   <div className="row">
                     <div className="col-md-6">
                       <label>Address</label>
@@ -177,45 +170,7 @@ function Profile() {
                       <p>xxxx</p>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Hourly Rate</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>xxx</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Total Projects</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>xxx</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>English Level</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>xxxx</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Availability</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>xxxxx</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <label>Your Bio</label>
-                      <br />
-                      <p>Your detail description</p>
-                    </div>
-                  </div>
+               
                 </div>
               </div>
             </div>

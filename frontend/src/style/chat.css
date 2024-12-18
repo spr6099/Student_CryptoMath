@@ -16,7 +16,7 @@
 .my_message{
     width: fit-content;
     max-width: 60%;
-    align-self: self-start;
+    align-self: self-end;
     display: flex;
     gap: 1rem;
 }
@@ -28,7 +28,7 @@
 .other_message{
     width: fit-content;
     max-width: 60%;
-    align-self: self-end;
+    align-self: self-start;
     display: flex;
     gap: 1rem;
 }
@@ -51,7 +51,7 @@
 }
 .chat_form{
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 3fr 1fr 1fr;
     gap:3rem;
 }
 .chat_form>.chat_input{

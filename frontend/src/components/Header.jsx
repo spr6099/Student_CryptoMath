@@ -1,20 +1,38 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-
+import { TiArrowLeftOutline, TiArrowRightOutline } from "react-icons/ti";
 function Header() {
-  const { setUser, user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      // console.log("!user");
+      // console.log(user);
+    }
+  }, [user]);
 
   const Logout = () => {
     setUser("");
+    sessionStorage.clear();
     navigate("/login");
   };
   return (
     <>
       <nav className="navbar navbar-expand-lg sticky-top bg-body-tertiary">
         <div className="container">
+          {user && (
+            <button className="btn " onClick={() => navigate(-1)}>
+              <TiArrowLeftOutline className="fs-4" />
+            </button>
+          )}
           <Link className="navbar-brand">CryptoMath</Link>
+          {user && (
+            <button className="btn " onClick={() => navigate(1)}>
+              <TiArrowRightOutline className="fs-4" />
+            </button>
+          )}
           <button
             className="navbar-toggler"
             type="button"

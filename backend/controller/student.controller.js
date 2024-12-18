@@ -1,6 +1,8 @@
 const path = require("path");
 const Students = require("../model/student.model");
 const fs = require("fs");
+const GameModel = require("../model/game.model");
+
 exports.update = async (req, res) => {
   try {
     const { id } = req.params;
@@ -63,3 +65,12 @@ exports.update = async (req, res) => {
       .json({ message: "error in student update", error: error.message });
   }
 };
+
+exports.score = async (req, res) => {
+  try {
+    GameModel.create(req.body);
+  } catch (error) {
+    console.log(error);
+  }
+};
+

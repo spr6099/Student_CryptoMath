@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const feeSchema = new mongoose.Schema({
-  amount: { type: Number, required: true },
+  amount: { type: Number },
   status: { type: String, enum: ["pending", "paid"], default: "pending" },
   payemtDate: { type: Date },
   transactionId: { type: String },
@@ -25,7 +25,14 @@ const studentSchema = new mongoose.Schema({
     default: "pending",
     enum: ["approve", "pending"],
   },
-  fees: [feeSchema],
+  fees: feeSchema,
+  games: {
+    snake: { type: Boolean, default: false },
+    guess: { type: Boolean, default: false },
+    typing: { type: Boolean, default: false },
+    fruit: { type: Boolean, default: false },
+  },
+  role: { type: String, default: "student" },
   address: {
     state: { type: String },
     pin: { type: Number },

@@ -9,7 +9,7 @@ const Students = require("../model/student.model");
 // const transporter = nodemailer.createTransport({
 //   service: "gmail", // or another service
 //   auth: {
-//     user: "sandeep.pr3@gmail.com",
+//     user: "abc@gmail.com",
 //     pass: "ierfdnetyofxiyna",
 //   },
 // });
@@ -81,7 +81,7 @@ exports.getAllParents = async (req, res) => {
 exports.getOneStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    const student = await Students.findById(id);
+    const student = await Students.findById(id).populate("teacher");
 
     return res.status(200).json({ data: student });
   } catch (err) {

@@ -40,7 +40,7 @@ function AdminCalendar() {
   return (
     <>
       <Button variant="primary" onClick={() => setModalShow(true)}>
-        Launch vertically centered modal
+        Add Event
       </Button>
 
       <MyVerticallyCenteredModal
@@ -135,27 +135,27 @@ function MyVerticallyCenteredModal({show,onHide, onAddEvent, onEditEvent, onDele
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <div className="sidebar-body">
-          <label>Title</label>
+      <div className="row row-cols-2 g-3">
+          <label>Title :</label>
           <input
             type="text"
             placeholder="Event Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label>Date</label>
+          <label>Date :</label>
           <input
             type="date"
             value={moment(date).format('YYYY-MM-DD')}
             onChange={handleDateChange}
           />
-          <label>Start Time</label>
+          <label>Start Time :</label>
           <input
             type="time"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
           />
-          <label>End Time</label>
+          <label>End Time :</label>
           <input
             type="time"
             value={endTime}
