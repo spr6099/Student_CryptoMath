@@ -21,18 +21,11 @@ function Typing() {
       try {
         // console.log(datas);
 
-        const res = await axios.post(
-          `${BaseUrl}/student/score`,
-          // "http://localhost:4000/student/score",
-          datas
-          // { withCredentials: true }
-        );
+        const res = await axios.post(`${BaseUrl}/student/score`, datas);
         console.log("data  from child==>", res.data);
       } catch (err) {
         console.log(err);
       }
-
-      //   gameOver();
     },
     []
   );

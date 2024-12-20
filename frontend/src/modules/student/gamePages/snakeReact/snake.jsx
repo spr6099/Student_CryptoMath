@@ -6,8 +6,10 @@ import {
 } from "react-icons/fa";
 import { useEventListener, useInterval, useLocalStorage } from "usehooks-ts";
 import "./snake.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../../../../context/AuthContext";
+import { BaseUrl } from "../../../../constant";
 
 /**
  * Snake component
@@ -20,7 +22,7 @@ export const Snake = ({ onGameEnd }) => {
   const [started, setStarted] = useState(false);
 
   const [gameOver, setGameOver] = useState(false);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  // const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const [foodPosition, setFoodPosition] = useState({
     x: Math.floor(Math.random() * 30) + 1,
@@ -34,6 +36,8 @@ export const Snake = ({ onGameEnd }) => {
   const [snakeBody, setSnakeBody] = useState([]);
 
   const [highScore, setHighScore] = useLocalStorage("highScore", 0);
+
+  const { user } = useContext(AuthContext);
 
   function startGame() {
     setGameOver(false);
@@ -58,26 +62,27 @@ export const Snake = ({ onGameEnd }) => {
     });
   };
 
-  const handleGameOver = () => {
+  const handleGameOver = async () => {
     setGameOver(true);
 
     onGameEnd?.({ score, highScore });
 
-    console.log("user", user._id);
+    // console.log("user", user._id);
     console.log("score", score);
     console.log("Hscore", highScore);
     let datas = {
-      user: user._id,
+      studentId: user?._id,
       score: score,
-      Hscore: highScore,
       game: "snake",
     };
-    const Gamesave = async () => {
-      await axios.post("http://localhost:4000/student/score", datas, {
-        withCredentials: true,
-      });
-    };
-    Gamesave();
+    console.log(datas);
+
+    try {
+      const res = await axios.post(`${BaseUrl}/student/score`, datas);
+      console.log("data  from child==>", res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const changeDirection = (e) => {
@@ -177,45 +182,48 @@ export const Snake = ({ onGameEnd }) => {
   // Delay in milliseconds or null to stop it
   useInterval(initGame, started && !gameOver ? 150 : null);
 
-  return (<>        <a className="btn btn-secondary" href="/student/games">Home</a>
-
-    <div className="wrappers">
-      <div>
-      </div>
-      {gameOver && (
-        <div>
-          Game Over <button onClick={startGame}>Restart</button>
+  return (
+    <>
+      {" "}
+      <a className="btn btn-secondary" href="/student/games">
+        Home
+      </a>
+      <div className="wrappers">
+        <div></div>
+        {gameOver && (
+          <div>
+            Game Over <button onClick={startGame}>Restart</button>
+          </div>
+        )}
+        <div>{!started && <button onClick={startGame}>start</button>}</div>
+        <div className="game-details">
+          <span className="score">Score: {score}</span>
+          <span className="high-score">High Score: {highScore}</span>
         </div>
-      )}
-      <div>{!started && <button onClick={startGame}>start</button>}</div>
-      <div className="game-details">
-        <span className="score">Score: {score}</span>
-        <span className="high-score">High Score: {highScore}</span>
+        <div className="play-board">
+          <div
+            class="food"
+            style={{ "grid-area": `${foodPosition.y} / ${foodPosition.x}` }}
+          ></div>
+          {snakeBody.map(([x, y]) => (
+            <div className="head" style={{ "grid-area": `${y} / ${x}` }}></div>
+          ))}
+        </div>
+        <div className="controls">
+          <button onClick={() => changeDirection({ key: "ArrowLeft" })}>
+            <FaArrowLeft />
+          </button>
+          <button onClick={() => changeDirection({ key: "ArrowUp" })}>
+            <FaArrowUp />
+          </button>
+          <button onClick={() => changeDirection({ key: "ArrowRight" })}>
+            <FaArrowRight />
+          </button>
+          <button onClick={() => changeDirection({ key: "ArrowDown" })}>
+            <FaArrowDown />
+          </button>
+        </div>
       </div>
-      <div className="play-board">
-        <div
-          class="food"
-          style={{ "grid-area": `${foodPosition.y} / ${foodPosition.x}` }}
-        ></div>
-        {snakeBody.map(([x, y]) => (
-          <div className="head" style={{ "grid-area": `${y} / ${x}` }}></div>
-        ))}
-      </div>
-      <div className="controls">
-        <button onClick={() => changeDirection({ key: "ArrowLeft" })}>
-          <FaArrowLeft />
-        </button>
-        <button onClick={() => changeDirection({ key: "ArrowUp" })}>
-          <FaArrowUp />
-        </button>
-        <button onClick={() => changeDirection({ key: "ArrowRight" })}>
-          <FaArrowRight />
-        </button>
-        <button onClick={() => changeDirection({ key: "ArrowDown" })}>
-          <FaArrowDown />
-        </button>
-      </div>
-    </div>
     </>
   );
 };

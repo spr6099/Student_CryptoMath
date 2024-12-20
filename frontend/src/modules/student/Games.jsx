@@ -59,7 +59,7 @@ function Games() {
             </div>
           </div>
 
-          <div className="col-3 m-3 ">
+          <div className="col-3 m-3 " >
             <div
               className="bg-primary  p-2"
               style={{ Height: "200px", width: "200px" }}

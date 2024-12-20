@@ -74,3 +74,19 @@ exports.score = async (req, res) => {
   }
 };
 
+exports.getScore = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    const data = await GameModel.find({ studentId: id });
+    console.log(data);
+
+    return res.status(200).json({ data: data });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ message: "error in get Score", error: error.message });
+  }
+};

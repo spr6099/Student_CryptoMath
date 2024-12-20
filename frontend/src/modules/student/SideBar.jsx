@@ -25,8 +25,13 @@ function SideBar() {
           </div>
           <ul className="sidebar-nav">
             <li className="sidebar-item">
-              <Link className="sidebar-link">
+              <Link to={"/student/home"} className="sidebar-link">
                 <MdOutlineDashboard /> <span>DashBoard</span>
+              </Link>
+            </li>
+            <li className="sidebar-item">
+              <Link to={"/student/marklist"} className="sidebar-link">
+                <MdOutlineDashboard /> <span>MarkList</span>
               </Link>
             </li>
             <li className="sidebar-item">

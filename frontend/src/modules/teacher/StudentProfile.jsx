@@ -16,6 +16,10 @@ import typing from "../../assets/typingg.jpg";
 import guess from "../../assets/guess.jpg";
 import fruit from "../../assets/slicer.jpg";
 
+import Table from "react-bootstrap/Table";
+import ScoreTable from "../../components/ScoreTable";
+import Chart from "../../components/Chart";
+
 function StudentProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -24,6 +28,13 @@ function StudentProfile() {
   const [student, setstudent] = useState({});
   const { user } = useContext(AuthContext);
   const [feedback, setfeedback] = useState([]);
+  const [score, setscore] = useState([]);
+
+  useEffect(() => {
+    getFeedback();
+    getStudent();
+    getStudentScore();
+  }, [user]);
 
   const {
     name,
@@ -35,6 +46,7 @@ function StudentProfile() {
     parent,
     games = {},
   } = student;
+
   const {
     state = "N/A",
     pin = "000000",
@@ -42,20 +54,13 @@ function StudentProfile() {
   } = address;
 
   console.log(games?.snake);
-
-
   const [game, setgame] = useState({
-    snake:games?.snake,
+    snake: games?.snake || false,
     typing: false,
     guess: false,
     fruit: false,
   });
-  console.log(game?.snake);
-
-  useEffect(() => {
-    console.log(game.snake); // Logs the value of game.snake after render
-  }, [game]); // Only re-run when the game state changes
-
+  console.log(game.snake);
 
   const changeTab = (props) => {
     setShow(props);
@@ -65,6 +70,15 @@ function StudentProfile() {
     try {
       const res = await axios.get(`${BaseUrl}/parent/getonechild/${id}`);
       setstudent(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getStudentScore = async () => {
+    try {
+      const res = await axios.get(`${BaseUrl}/student/getscore/${id}`);
+      setscore(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -112,10 +126,6 @@ function StudentProfile() {
     }
   };
 
-  useEffect(() => {
-    getFeedback();
-    getStudent();
-  }, [user]);
   // console.log(student);
 
   // navigete to chat
@@ -139,7 +149,7 @@ function StudentProfile() {
     }
   };
 
-  // console.log(games);
+  console.log(score);
 
   if (!user) {
     return <p>Loading</p>;
@@ -214,17 +224,17 @@ function StudentProfile() {
                   </li>
                   <li className="nav-item">
                     <a
-                      onClick={() => changeTab("feedback")}
+                      onClick={() => changeTab("scores")}
                       className={`nav-link ${
-                        show === "feedback" ? "active" : ""
+                        show === "scores" ? "active" : ""
                       }`}
-                      id="feedback"
+                      id="scores"
                       data-toggle="tab"
                       role="tab"
                       aria-controls="home"
-                      aria-selected={show == "feedback"}
+                      aria-selected={show == "scores"}
                     >
-                      Feedback
+                      Scores
                     </a>
                   </li>
                 </ul>
@@ -410,15 +420,6 @@ function StudentProfile() {
                       </button>
                     </div>
                   </div>
-                </div>
-                <div
-                  className={`tab-pane fade ${
-                    show == "feedback" ? "show active" : ""
-                  } `}
-                  id="profile"
-                  role="tabpanel"
-                  aria-labelledby="profile-tab"
-                >
                   <div className="row">
                     <div className="col-12">
                       <label>Feedback</label>
@@ -452,6 +453,57 @@ function StudentProfile() {
                       {/* <textarea className="w-100" placeholder="enter your feedback"></textarea> */}
                     </div>
                   </div>
+                </div>
+                <div
+                  className={`tab-pane fade ${
+                    show == "scores" ? "show active" : ""
+                  } `}
+                  id="profile"
+                  role="tabpanel"
+                  aria-labelledby="profile-tab"
+                >
+                  <ScoreTable id={id} />
+                  {/* <section class="table__body">
+                    <table className="teacherTable">
+                      <thead className="teacherthead">
+                        <tr>
+                          <th>Snake</th>
+                          <th> Guess</th>
+                          <th> Typing</th>
+                          <th> Fruit</th>
+                        </tr>
+                      </thead>
+                      <tbody className="teachertbody">
+                        <tr>
+                          <td>
+                            {" "}
+                            {score.map((item, index) => (
+                              <tr>{item.game === "snake" && item.score}</tr>
+                            ))}
+                          </td>
+                          <td>
+                            {" "}
+                            {score.map((item, index) => (
+                              <tr>{item.game === "guess" && item.score}</tr>
+                            ))}
+                          </td>
+                          <td>
+                            {" "}
+                            {score.map((item, index) => (
+                              <tr>{item.game === "typing" && item.score}</tr>
+                            ))}
+                          </td>
+                          <td>
+                            {" "}
+                            {score.map((item, index) => (
+                              <tr>{item.game === "fruit" && item.score}</tr>
+                            ))}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section> */}
+                  <Chart id={id} />
                 </div>
               </div>
             </div>

@@ -32,11 +32,12 @@ import StudentLayout from "./layout/StudentLayout";
 import StudentHome from "./modules/student/Home";
 import ChatContainer from "./components/chat/ChatContainer";
 import Games from "./modules/student/Games";
-import Typing from "./modules/student/gamePages/typing";
+import Typing from "./modules/student/gamePages/Typing";
 import Guess from "./modules/student/gamePages/guess";
 import Fruit from "./modules/student/gamePages/fruit";
 import Snake from "./modules/student/gamePages/snakeReact/snake";
 import PaymentComponent from "./components/RazorPay";
+import MarkList from "./modules/student/MarkList";
 
 function App() {
   const [user, setUser] = useState();
@@ -93,6 +94,7 @@ function App() {
           </Route>
           <Route path="/student" element={<StudentLayout />}>
             <Route path="home" element={<StudentHome />} />
+            <Route path="marklist" element={<MarkList />} />
             <Route path="games" element={<Games />} />
             {/* <======games=====> */}
             <Route path="typing" element={<Typing />} />
