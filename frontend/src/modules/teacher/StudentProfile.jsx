@@ -36,6 +36,13 @@ function StudentProfile() {
     getStudentScore();
   }, [user]);
 
+  const [game, setgame] = useState({
+    snake,
+    typing,
+    guess,
+    fruit,
+  });
+
   const {
     name,
     email,
@@ -54,13 +61,6 @@ function StudentProfile() {
   } = address;
 
   console.log(games?.snake);
-  const [game, setgame] = useState({
-    snake: games?.snake || false,
-    typing: false,
-    guess: false,
-    fruit: false,
-  });
-  console.log(game.snake);
 
   const changeTab = (props) => {
     setShow(props);
@@ -70,6 +70,14 @@ function StudentProfile() {
     try {
       const res = await axios.get(`${BaseUrl}/parent/getonechild/${id}`);
       setstudent(res.data.data);
+      console.log(res.data.data.games);
+
+      setgame({
+        snake: res.data.data?.games?.snake || false,
+        guess: res.data.data?.games?.guess || false,
+        typing: res.data.data?.games?.typing || false,
+        fruit: res.data.data?.games?.fruit || false,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -150,6 +158,7 @@ function StudentProfile() {
   };
 
   console.log(score);
+  console.log(game);
 
   if (!user) {
     return <p>Loading</p>;
@@ -365,6 +374,7 @@ function StudentProfile() {
                           <input
                             type="checkbox"
                             name="guess"
+                            checked={game.guess}
                             onChange={HandleOnchange}
                           ></input>
                         </div>
@@ -375,6 +385,7 @@ function StudentProfile() {
                           <input
                             type="checkbox"
                             name="fruit"
+                            checked={game.fruit}
                             onChange={HandleOnchange}
                           ></input>
                         </div>
@@ -385,6 +396,7 @@ function StudentProfile() {
                           <input
                             type="checkbox"
                             name="typing"
+                            checked={game.typing}
                             onChange={HandleOnchange}
                           ></input>
                         </div>

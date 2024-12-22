@@ -39,9 +39,9 @@ function Childrens() {
     }
   };
 
-  useEffect(() => {
-    getStudent();
-  }, []);
+    useEffect(() => {
+      getStudent();
+    }, []);
 
   if (!user || !studentdata || !id) {
     return <p>Loading</p>;

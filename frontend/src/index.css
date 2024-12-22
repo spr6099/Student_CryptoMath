@@ -7,3 +7,8 @@
 .layout_overflow::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
 }
+
+/* Student game page */
+.hidden {
+    display: none;
+  }
