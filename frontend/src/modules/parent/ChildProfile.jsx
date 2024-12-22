@@ -376,40 +376,39 @@ function Childrens() {
                     role="tabpanel"
                     aria-labelledby="profile-tab"
                   >
-                    {fees && fees?.amount ? (
-                      <>
-                        <div className="row">
+                    {/* <div className="row">
                           <div className="col-md-6">
                             <label>Paid</label>
                           </div>
                           <div className="col-md-6">
-                            <p>xxxx</p>
+                            <p>{amount}</p>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <label>Bal fee</label>
-                          </div>
-                          <div
-                            className="col-md-6"
-                            data-toggle="modal"
-                            data-target="#exampleModalCenter"
+                        </div> */}
+
+                    <div className="row">
+                      <div className="col-md-6">
+                        <label> fee</label>
+                      </div>
+                      <div
+                        className="col-md-6"
+                        data-toggle="modal"
+                        data-target="#exampleModalCenter"
+                      >
+                        {" "}
+                        <div  >{amount}</div >
+                        {fees && fees?.amount && fees.status == "paid" ? (
+                          <div className="">status:<span>paid</span></div>
+                        ) : (
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => setModalShow(true)}
                           >
-                            {" "}
-                            {amount}
-                            <button
-                              className="btn btn-primary"
-                              onClick={() => setModalShow(true)}
-                            >
-                              click to pay
-                            </button>
-                            {/* </Link> */}
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <h2>no fee details</h2>
-                    )}
+                            click to pay
+                          </button>
+                        )}
+                        {/* </Link> */}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

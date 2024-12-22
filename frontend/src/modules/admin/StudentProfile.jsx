@@ -206,7 +206,7 @@ function StudentProfile() {
                   </li>
                   <li className="nav-item">
                     <button className="btn btn-success" type="submit">
-                      add
+                      Update
                     </button>
                   </li>
                 </ul>
@@ -410,20 +410,20 @@ function StudentProfile() {
                       <label>Fee</label>
                     </div>
                     <div className="col-md-6">
-                      <p>{fees.amount}</p>
+                      <p>{fees?.amount}</p>
+                      {fees && fees?.amount && fees.status == "paid" ? (
+                        <div className="">
+                          status:<span>paid</span>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
+                 
                   <div className="row">
                     <div className="col-md-6">
-                      <label>Paid</label>
-                    </div>
-                    <div className="col-md-6">
-                      <p>xxxx</p>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label>Bal fee</label>
+                      <label>Add fee</label>
                     </div>
                     <div className="col-md-6">
                       <input
