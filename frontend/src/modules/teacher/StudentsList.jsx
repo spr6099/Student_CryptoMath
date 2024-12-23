@@ -71,7 +71,7 @@ function StudentsList() {
                           : "cancelled"
                       }`}
                     >
-                      {items.adminstatus}
+                      {items.adminstatus}d
                     </p>
                   </td>
                   {/* <td>

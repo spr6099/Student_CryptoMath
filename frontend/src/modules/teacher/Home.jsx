@@ -3,7 +3,9 @@ import AdminCalendar from '../admin/AdminCalendar'
 
 function Home() {
   return (
-    <div><AdminCalendar/></div>
+    // <div><AdminCalendar/></div>
+    <div className='home_container'><AdminCalendar/></div>
+
   )
 }
 

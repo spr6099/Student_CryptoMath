@@ -21,7 +21,7 @@ function SideBar() {
     setExpanded((prev) => !prev);
   };
   return (
-    <div>
+    <div className="p-0 m-0" >
       <div className="sidebar_wrapper">
         <aside id="sidebar" className={isExpanded ? "expand" : ""}>
           <div className="d-flex">
@@ -137,12 +137,12 @@ function SideBar() {
                 <span>Notification</span>
               </a>
             </li>
-            <li className="sidebar-item">
+            {/* <li className="sidebar-item">
               <a className="sidebar-link">
                 <CgProfile />
                 <span>Profile</span>
               </a>
-            </li>
+            </li> */}
           </ul>
           <div className="sidebar-footer">
             <a className="sidebar-link">

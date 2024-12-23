@@ -6,6 +6,7 @@ import "../../style/home.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { BaseUrl } from "../../constant";
+import educationPng from "../../assets/home/education.jpg";
 
 function Home() {
   const [childrens, setchildrens] = useState([]);
@@ -32,7 +33,43 @@ function Home() {
   console.log("Children:", childrens);
 
   return (
-    <div>
+    <div className="home_container">
+      <img src={educationPng} alt="education" className="education_img" />
+      <div className="row minicard_container mb-3">
+        <div className="col-sm-4">
+          <MiniCard
+            Icon={GrScorecard}
+            style={{
+              backgroundColor: "#CFE8FF",
+              color: "#3C91E6",
+            }}
+            title={2000}
+            subTitle={'fees'}
+          />
+        </div>
+        <div className="col-sm-4">
+          <MiniCard
+            Icon={GrScorecard}
+            style={{
+              backgroundColor: "#FFF2C6",
+              color: "#FFCE26",
+            }}
+            title={2000}
+            subTitle={'fees'}
+          />
+        </div>
+        <div className="col-sm-4">
+          <MiniCard
+            Icon={GrScorecard}
+            style={{
+              backgroundColor: "#FFE0D3",
+              color: "#FD7238",
+            }}
+            title={2000}
+            subTitle={'fees'}
+          />
+        </div>
+      </div>
       <div className="row g-4">
         <div className="col-md-6">
           {childrens.map((item, index) => (
@@ -45,103 +82,88 @@ function Home() {
           ))}
         </div>
         <div className="col-md-6">
-          <div className="row">
-            <div className="col-6">
-              <MiniCard Icon={GrScorecard} color={"bg-primary"} />
-            </div>
-            <div className="col-6">
-              <MiniCard Icon={GrScorecard} color={"bg-success"} />
-            </div>
-            <div className="col-6">
-              <MiniCard Icon={GrScorecard} color={"bg-danger"} />
-            </div>
-            <div className="col-6">
-              <MiniCard Icon={GrScorecard} color={"bg-warning"} />
-            </div>
-          </div>
           {/* notice board */}
-          <div class="card">
-            <h5 class="card-header">Notice Board</h5>
-            <div class="card-body">
-              <div class="list-group list-group-flush notice_board_scroll">
+          <div className="card">
+            <h5 className="card-header">Notice Board</h5>
+            <div className="card-body">
+              <div className="list-group list-group-flush notice_board_scroll">
                 <li
-                  class="list-group-item list-group-item-action"
-                  aria-current="true"
-                >
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
+                  className="list-group-item list-group-item-action"
+                  aria-current="true">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
                     <small>3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
                   <small>And some small print.</small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>
-                <li class="list-group-item list-group-item-action">
-                  <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">List group item heading</h5>
-                    <small class="text-body-secondary">3 days ago</small>
+                <li className="list-group-item list-group-item-action">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">List group item heading</h5>
+                    <small className="text-body-secondary">3 days ago</small>
                   </div>
-                  <p class="mb-1">Some placeholder content in a paragraph.</p>
-                  <small class="text-body-secondary">
+                  <p className="mb-1">Some placeholder content in a paragraph.</p>
+                  <small className="text-body-secondary">
                     And some muted small print.
                   </small>
                 </li>

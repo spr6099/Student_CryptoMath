@@ -41,8 +41,8 @@ function TeachersList() {
                 <th> Name</th>
                 <th> Email</th>
                 <th> Joining Date</th>
-                <th> Status</th>
-                <th> Amount</th>
+                {/* <th> Status</th>
+                <th> Amount</th> */}
               </tr>
             </thead>
             <tbody className="teachertbody">
@@ -51,18 +51,18 @@ function TeachersList() {
                   <td> {index+1} </td>
                   <td>
                     {" "}
-                    <img src="images/Zinzu Chan Lee.jpg" alt="" />
+                    <img src={`${BaseUrl}/uploads/${item.image}`} alt="" />
                     {item.name}
                   </td>
                   <td> {item.email} </td>
                   <td> {item.joindate} </td>
-                  <td>
+                  {/* <td>
                     <p class="status delivered">Delivered</p>
                   </td>
                   <td>
                     {" "}
                     <strong> $128.90 </strong>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
 

@@ -3,3 +3,40 @@
     overflow-y: auto;
     overscroll-behavior-y: contain;
 }
+.header_bg_color{
+    background-color: #00406c;
+}
+.home_container{
+    padding: 15px;
+    background-color: #f8f9fa;
+    /* background-image: url('../assets/home/board-5599231_1280.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed; */
+}
+
+.education_img{
+    width: 100%;
+    height: 200px;
+    margin-bottom: 1rem;
+}
+
+
+
+/* home page top mini cards */
+.mini_card_box {
+	padding: 24px;
+	background: #F9F9F9;
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	grid-gap: 24px;
+}
+.mini_card_box.text h3 {
+	font-size: 24px;
+	font-weight: 600;
+	color: #342E37;
+}
+.mini_card_box.text p {
+	color: #342E37;	
+}

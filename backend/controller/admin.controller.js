@@ -10,7 +10,7 @@ const Students = require("../model/student.model");
 //   service: "gmail", // or another service
 //   auth: {
 //     user: "abc@gmail.com",
-//     pass: "ierfdnetyofxiyna",
+//     pass: "ieriyna",
 //   },
 // });
 // chrome-> app password-> set name and passkey

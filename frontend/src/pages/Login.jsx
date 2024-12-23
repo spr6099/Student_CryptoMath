@@ -61,7 +61,7 @@ function Login() {
   return (
     <div>
       <section className="loginSection">
-        <div className="leaves">
+        {/* <div className="leaves">
           <div className="set">
             <div>
               <img src="leaf_02.png" />
@@ -88,10 +88,10 @@ function Login() {
               <img src="leaf_04.png" />
             </div>
           </div>
-        </div>
-        <img src="bg.jpg" className="bg" />
+        </div> */}
+        {/* <img src="bg.jpg" className="bg" /> */}
         <img src={girl} className="girl" />
-        <img src="trees.png" className="trees" />
+        {/* <img src="trees.png" className="trees" /> */}
         <form onSubmit={HandleSubmit} className="login">
           <h2>Sign In</h2>
           <div className="inputBox">
