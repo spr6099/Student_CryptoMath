@@ -12,7 +12,7 @@ const chat = require("./routes/chat.router");
 
 const path = require("path");
 
-const port = process.env.PORT || 3000; // You can use environment variables for port configuration
+const port = process.env.PORT; // You can use environment variables for port configuration
 // dotenv.config();
 const app = express();
 

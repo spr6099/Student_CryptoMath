@@ -5,7 +5,10 @@ const Parents = require("../model/parent.model");
 const Student = require("../model/student.model");
 
 async function FindByEmail(email) {
+  
   try {
+    
+
     let user = await Parents.findOne({ email });
     if (user) {
       return user;
@@ -22,6 +25,7 @@ async function FindByEmail(email) {
     if (user) {
       return user;
     }
+    
   } catch (error) {
     console.log(error);
   }

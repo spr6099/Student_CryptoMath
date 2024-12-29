@@ -1,4 +1,4 @@
-const { Mongoose, default: mongoose } = require("mongoose");
+const { mongoose } = require("mongoose");
 
 const adminSchema = new mongoose.Schema({
   name: { type: String },
