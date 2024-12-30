@@ -7,7 +7,7 @@ function AdminLayout() {
   const { user } = useContext(AuthContext);
   // const sessionUser = JSON.parse(sessionStorage.getItem("user"));
 
-  if (user && user.role !== "admin") return <Navigate to="/" />;
+  if (!user || user.role !== "admin") return <Navigate to="/" replace />;
 
   return (
     <div>

@@ -25,6 +25,7 @@ async function FindByEmail(email) {
     if (user) {
       return user;
     }
+    console.log(user);
     
   } catch (error) {
     console.log(error);
