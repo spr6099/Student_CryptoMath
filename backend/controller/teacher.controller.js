@@ -26,29 +26,18 @@ exports.updateProfile = async (req, res) => {
     }
 
     // profile image
-    if (req.file) {
-      const uploadStream = bucket.openUploadStream(req.file.originalname);
-      uploadStream.end(req.file.buffer);
+   
 
-      uploadStream.on("finish", async () => {
-        updateFields.image = req.file.originalname;
-        updateFields.imageId = uploadStream.id;
-      });
-      uploadStream.on("error", (error) => {
-        return res.status(500).json({ error: error.message });
-      });
+    if (req?.file) {
+      const newProfileImage = req?.file?.filename;
+      if (existingUser.profileimage) {
+        const oldProfileImage = path.resolve(existingUser.profileimage);
+        if (fs.existsSync(oldProfileImage)) {
+          fs.unlinkSync(oldProfileImage);
+        }
+      }
+      updateFields.image = newProfileImage;
     }
-
-    // if (req?.file) {
-    //   const newProfileImage = req?.file?.filename;
-    //   if (existingUser.profileimage) {
-    //     const oldProfileImage = path.resolve(existingUser.profileimage);
-    //     if (fs.existsSync(oldProfileImage)) {
-    //       fs.unlinkSync(oldProfileImage);
-    //     }
-    //   }
-    //   updateFields.image = newProfileImage;
-    // }
 
     const data = await Teacher.findByIdAndUpdate(id, updateFields, {
       new: true,

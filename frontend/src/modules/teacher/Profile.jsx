@@ -143,7 +143,7 @@ function Profile() {
                       <p>{phone}</p>
                     </div>
                   </div>
-                  
+
                   <div className="row">
                     <div className="col-md-6">
                       <label>Address</label>
@@ -170,7 +170,6 @@ function Profile() {
                       <p>xxxx</p>
                     </div>
                   </div>
-               
                 </div>
               </div>
             </div>

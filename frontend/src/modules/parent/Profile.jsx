@@ -16,7 +16,7 @@ function Profile() {
     return <p>Loading</p>;
   }
 
-  const { name, email, number, occupation, address = {}, image } = user;
+  const { name, email, number, occupation, address = {}, image, income } = user;
   const {
     state = "N/A",
     pin = "000000",
@@ -35,7 +35,9 @@ function Profile() {
             <div className="col-md-4">
               <div className="profile-img">
                 <img
-                    src={image!=="" ? `${BaseUrl}/uploads/${image}` : defaultUser}
+                  src={
+                    image !== "" ? `${BaseUrl}/uploads/${image}` : defaultUser
+                  }
                   alt=""
                   style={{ height: "100px", width: "150px" }}
                 />
@@ -60,7 +62,7 @@ function Profile() {
                       aria-controls="home"
                       aria-selected={!show}
                     >
-                      About 
+                      About
                     </a>
                   </li>
                   <li className="nav-item">
@@ -170,13 +172,12 @@ function Profile() {
                 >
                   <div className="row">
                     <div className="col-md-6">
-                      <label>Experience</label>
+                      <label>Income</label>
                     </div>
                     <div className="col-md-6">
-                      <p>xxxx</p>
+                      <p>{income}</p>
                     </div>
                   </div>
-                  
                 </div>
               </div>
             </div>

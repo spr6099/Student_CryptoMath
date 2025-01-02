@@ -18,8 +18,8 @@ function AddProfileDetails() {
     gender: user?.gender || "",
     dob: user?.dob || "",
     // password: "",
-    specializedIn : user?.specializedIn  || "",
-    district: user?.district || "",
+    specializedIn: user?.specializedIn || "",
+    district: user?.address?.district || "",
   });
   const [profileImage, setProfileimage] = useState("");
 
@@ -28,8 +28,8 @@ function AddProfileDetails() {
     setData({ ...data, [name]: value });
   };
 
-  if(!user){
-    return <p>loading...</p>
+  if (!user) {
+    return <p>loading...</p>;
   }
 
   const HandleSubmit = async (e) => {
@@ -48,7 +48,7 @@ function AddProfileDetails() {
       formData.append("address[fullAddress]", data.address);
       formData.append("address[district]", data.district);
       formData.append("file", profileImage);
-      formData.append("specializedIn", data.specializedIn );
+      formData.append("specializedIn", data.specializedIn);
 
       const res = await axios.post(
         `${BaseUrl}/teacher/profile/${user._id}`,
@@ -57,24 +57,12 @@ function AddProfileDetails() {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      // console.log(res.data);
 
       sessionStorage.setItem("user", JSON.stringify(res.data.data));
 
-      // setData({
-      //   name: "",
-      //   email: "",
-      //   phone: "",
-      //   address: "",
-      //   gender: "",
-      //   dob: "",
-      //   password: "",
-      //   specializedIn : "",
-      //   district: "",
-      // });
       toast.success(res.data.message, {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -87,7 +75,7 @@ function AddProfileDetails() {
       console.log(error);
       toast.error(error.response.data.message, {
         position: "top-center",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -231,7 +219,7 @@ function AddProfileDetails() {
             </div>
             <div class="col-sm-6 form-group">
               <label className="text-dark" for="in">
-                Yearly specializedIn 
+                Yearly specializedIn
               </label>
               <input
                 type="text"
@@ -278,7 +266,6 @@ function AddProfileDetails() {
                 <option value="unspesified">Unspecified</option>
               </select>
             </div>
-
 
             {/* <div class="col-sm-6 form-group">
               <label className="text-dark" for="pass">
